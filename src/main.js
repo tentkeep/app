@@ -5,6 +5,14 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+Vue.mixin({
+  methods: {
+    alert (content) {
+      window.alert(content)
+    }
+  }
+})
+
 new Vue({
   router,
   store,
