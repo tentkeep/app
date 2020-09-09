@@ -18,8 +18,12 @@
       <p class="text-center p2 rounded shadow-primary2 border-secondary muted2 bg-hi">There is no content<br>in this gallery.</p>
     </div>
 
+    <div class="p2-h">
+      <input class="search-input" type="text" v-model="query" placeholder="search">
+    </div>
+
     <div v-for="item in items" :key="item.created_at" class="card m1 noscroll">
-      <podcast v-if="item.item_type === 'podcast'" :item="item" />
+      <podcast v-if="item.item_type === 'podcast'" :item="item" :filter="query" />
       <!-- <component :is="componentForItem(item)" :galleryItem="item" /> -->
     </div>
 
@@ -48,6 +52,7 @@ export default {
   data () {
     return {
       items: [],
+      query: null,
       userRole: null,
       addingContent: false
     }
@@ -123,5 +128,12 @@ export default {
     height: 170px;
     background: white;
   }
+}
+.search-input {
+  @extend .input;
+  @extend .m1-bottom;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 20px;
 }
 </style>
