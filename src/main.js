@@ -9,6 +9,10 @@ Vue.mixin({
   methods: {
     alert (content) {
       window.alert(content)
+    },
+    goToGallery (gallery) {
+      gallery.toString = () => gallery.id
+      this.$router.push({ name: 'gallery', params: { gallery } })
     }
   }
 })

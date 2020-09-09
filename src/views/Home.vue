@@ -21,22 +21,11 @@
 
       <div class="explore m2-top p1">
         <h3 class="m1-bottom">Explore</h3>
-
-        <div class="">
-          <div v-for="gallery in exploreGalleries"
-          :key="gallery.id"
-          class="item flex-row"
-          @click="$router.push({ name: 'gallery', params: { gallery }})">
-            <div class="item-image" :style="{'background-image': `url(${galleryImageUrl(gallery.id)})`}" />
-            <div class="description flex-column">
-              <p class="primary bold">{{gallery.title}}</p>
-            </div>
-          </div>
-        </div>
+        <gallery-grid :galleries="exploreGalleries" />
       </div>
     </div>
 
-    <div class="filter-menu border-top-primary">
+    <div class="filter-menu">
       <div v-for="f in filters"
         :key="f"
         :class="{ active: f === filter }"
@@ -48,6 +37,7 @@
 </template>
 
 <script>
+import GalleryGrid from '@/components/GalleryGrid'
 import { mapGetters } from 'vuex'
 import api from '@/js/api'
 
@@ -64,14 +54,13 @@ export default {
   computed: {
     ...mapGetters(['isSignedIn'])
   },
-  components: {
-  },
+  components: { GalleryGrid },
   methods: {
     galleryImageUrl (galleryId) {
       return api.getGalleryImageUrl(galleryId)
     },
     setFilter (filter) {
-      this.filter = filter
+      this.filter = this.filter === filter ? null : filter
     }
   },
   mounted () {
@@ -114,30 +103,6 @@ export default {
   }
 }
 
-.explore {
-  .item {
-    margin-bottom: 5px;
-    height: 80px;
-    @extend .border-primary;
-    box-shadow: 1px 1px 2px var(--primary3);
-    // border-radius: 8px;
-    .item-image {
-      @extend .bg-hi;
-      @extend .border-right-primary;
-      height: 80px;
-      width: 80px;
-      background-position: center;
-      background-size: cover;
-    }
-    .description {
-      @extend .bg-hi;
-      @extend .flex-one;
-      padding: 4px;
-      overflow: hidden;
-    }
-  }
-}
-
 .filter-menu {
   @extend .flex-row;
   @extend .z1;
@@ -149,15 +114,13 @@ export default {
     @extend .primary2;
     @extend .p2-top;
     @extend .p2-bottom;
+    transition: background, color .3s;
     &.active {
-      @extend .primary;
-      @extend .bg-hi;
-      @extend .opacity70;
-      border-top-left-radius: 4px;
-      border-top-right-radius: 4px;
+      @extend .hi;
+      @extend .bg-muted2;
     }
     &:not(:last-child) {
-      @extend .border-right-primary;
+      @extend .border-right-muted2;
     }
   }
 }

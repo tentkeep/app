@@ -1,7 +1,7 @@
 :root {
   --base-colorR: 252; --base-colorG: 250; --base-colorB: 250;
   --contrast-colorR: 35; --contrast-colorG: 33; --contrast-colorB: 34;
-  --primaryR: 79; --primaryG: 92; --primaryB: 99;
+  --primaryR: 59; --primaryG: 82; --primaryB: 99;
   --secondaryR: 125; --secondaryG: 89; --secondaryB: 29;
   --mutedR: 96; --mutedG: 113; --mutedB: 121;
 
@@ -9,13 +9,11 @@
   --shadow-color: rgb(var(--shadowRGB));
 
   --hi: rgba(var(--base-colorR), var(--base-colorG), var(--base-colorB), 1);
-  --bg-gradient: radial-gradient(ellipse at top, #33aadd66, transparent),
-  radial-gradient(ellipse at bottom, #33ddaa99, transparent);
 
-  /* --bg-gradient: radial-gradient(circle at top,
-      rgba(254, 254, 254, 1),
-      var(--primary3),
-      rgba(246, 244, 255, 1)); */
-      
+  --bg-gradient: radial-gradient(circle at top, var(--hi), var(--muted3), transparent),
+  radial-gradient(ellipse at bottom, var(--hi), var(--muted3), transparent);
+
+  --bg-gradient-primary: radial-gradient(circle at top, var(--primary2), var(--primary), transparent),
+  radial-gradient(ellipse at bottom, var(--primary2), var(--primary), transparent);
 }
 

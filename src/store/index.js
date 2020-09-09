@@ -15,11 +15,25 @@ const { getters, mutations, actions } = storeGen(state)
 getters.isSignedIn = (state) => !!state.tokens
 
 actions.saveGallery = async ({ commit, state }, { title, image }) => {
-  const token = state.tokens.access_token
-  const gallery = await api.saveGallery(token, { title })
-  await api.saveGalleryImage(token, gallery.id, image)
-  gallery.toString = function () { return this.id }
+  const _token = token(state)
+  const gallery = await api.saveGallery(_token, { title })
+  await api.saveGalleryImage(_token, gallery.id, image)
   return gallery
+}
+actions.saveGalleryItem = ({ state }, properties) => {
+  return state.tokens
+    ? api.saveGalleryItem(token(state), properties)
+    : Promise.reject(new Error('Unauthorized'))
+}
+actions.getGalleriesForUser = ({ state }) => {
+  return state.tokens
+    ? api.getGalleriesForUser(token(state))
+    : Promise.resolve({})
+}
+actions.getGalleryUserRole = ({ state }, galleryId) => {
+  return state.tokens
+    ? api.getGalleryUserRole(token(state), galleryId)
+    : Promise.resolve({})
 }
 
 export default new Vuex.Store({
@@ -28,3 +42,5 @@ export default new Vuex.Store({
   mutations,
   actions
 })
+
+const token = state => state.tokens.access_token

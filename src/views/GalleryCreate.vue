@@ -41,7 +41,7 @@
       <input v-model="galleryTitle" type="text" name="galleryTitle" accept="image/*" class="input m3-bottom" />
       <div class="flex-row">
         <div class="flex-one"></div>
-        <button class="button next-button" :disabled="!galleryTitle || !galleryImage" @click="createGallery">Next</button>
+        <button class="button" :disabled="!galleryTitle || !galleryImage" @click="createGallery">Next</button>
       </div>
     </div>
 
@@ -150,9 +150,5 @@ export default {
     max-height: 100%;
     transition: opacity .3s ease-in-out;
   }
-}
-.next-button {
-  @extend .border-right-secondary3;
-  border-right-width: 3px;
 }
 </style>

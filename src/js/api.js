@@ -16,8 +16,15 @@ export default {
     }
     return appApi(`${host}/auth/token`, options)
   },
+  getPodcastSummary: feedUrl => appApi(`${host}/proxy/rss/podcast-summary?feed=${feedUrl}`),
+  // Galleries
   getGalleries: () => appApi(`${host}/galleries`),
+  getGalleriesForUser: token => appApi(`${host}/galleries/me`, { headers: authHeaders(token) }),
   getGalleryImageUrl: galleryId => `${host}/galleries/${galleryId}/image`,
+  getGalleryItems: galleryId => appApi(`${host}/galleries/${galleryId}/items`),
+  getGalleryUserRole: (token, galleryId) => appApi(`${host}/galleries/${galleryId}/users/me`, {
+    headers: authHeaders(token)
+  }),
   saveGallery: (token, properties) => appApi(`${host}/galleries`, {
     method: 'post',
     headers: headersForPost(token),
@@ -41,7 +48,14 @@ export default {
       body: image
     })
       .then(nonOkStatusHandler)
-  }
+  },
+  saveGalleryItem: (token, { galleryId, ...body }) => appApi(`${host}/galleries/${galleryId}/items`, {
+    method: 'post',
+    headers: headersForPost(token),
+    body
+  }),
+  // non-Tentkeep
+  searchPodcasts: (query) => appApi(`https://itunes.apple.com/search?entity=podcast&limit=20&term=${query}`)
 }
 
 const appApi = (url, options) => {
@@ -65,6 +79,10 @@ const nonOkStatusHandler = result => {
   }
   return result
 }
+
+const authHeaders = token => ({
+  Authorization: `Bearer ${token}`
+})
 
 const headersForPost = token => ({
   'Content-Type': 'application/json',
