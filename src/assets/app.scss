@@ -40,6 +40,13 @@ a {
   border-radius: 4px;
   border-left-color: var(--primary3);
 }
+.button-alt {
+  @extend .border-primary;
+  @extend .primary;
+  padding: 4px 8px;
+  border-radius: 10px;
+  background: none;
+}
 .square {
   position: relative;
   overflow: hidden;
@@ -80,7 +87,7 @@ hr {
 .card {
   @extend .bg-hi;
   @extend .border-primary;
-  @extend .p3;
+  @extend .p2;
   @extend .rounded;
 }
 .shadow-deep {

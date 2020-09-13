@@ -1,6 +1,9 @@
 <template>
   <div class="gallery-item-add v-fill flex-column">
-    <p class="p2">Add content to {{ gallery.title }}</p>
+    <div class="p2">
+      <p v-if="!addItemType">Add content to <span class="primary">{{ gallery.title }}</span></p>
+      <p v-else><a @click="addItemType = null" class="muted2 p2-right"><i class="fas fa-chevron-left" /></a> {{ contentTypeHeader }} : <span class="primary">{{ gallery.title }}</span></p>
+    </div>
     <hr style="margin: 0 8px 0 8px;">
 
     <component :is="addItemComponent" v-model="addItemType" class="flex-one scrolly" @submit="saveItem" />
@@ -19,12 +22,24 @@ export default {
     }
   },
   computed: {
+    contentTypeHeader () {
+      switch (this.addItemType) {
+        case 'podcast':
+          return 'Podcast'
+        case 'youtube':
+          return 'YouTube'
+        default:
+          return ''
+      }
+    },
     addItemComponent () {
       switch (this.addItemType) {
         case 'saving':
           return () => import('@/views/gallery-item-add/Saving')
         case 'podcast':
           return () => import('@/views/gallery-item-add/Podcast')
+        case 'youtube':
+          return () => import('@/views/gallery-item-add/YouTube')
         default:
           return () => import('@/views/gallery-item-add/ContentOptions')
       }

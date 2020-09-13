@@ -6,7 +6,7 @@
     <div class="p2">
       <div class="flex-row m2-bottom">
         <h3 class="p2-right m2-right border-right-muted2">My Galleries</h3>
-        <button class="create-button" @click="$router.push('/gallery/create')">Create a Gallery</button>
+        <button class="button-alt" @click="$router.push('/gallery/create')">Create a Gallery</button>
       </div>
       <gallery-grid :galleries="galleries" />
     </div>
@@ -38,10 +38,4 @@ export default {
 <style lang="scss" scoped>
 @import "../assets/app";
 
-.create-button {
-  @extend .border-primary;
-  @extend .p1-h;
-  border-radius: 10px;
-  background: none;
-}
 </style>

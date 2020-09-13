@@ -14,16 +14,17 @@
       <p class="text-center primary bold font2">{{ gallery.title }}</p>
     </div>
 
-    <div v-if="hasNoItems" class="flex-column align-center">
-      <p class="text-center p2 rounded shadow-primary2 border-secondary muted2 bg-hi">There is no content<br>in this gallery.</p>
+    <div v-if="!hasItems" class="flex-column align-center">
+      <p class="text-center p2 rounded primary">There is no content<br>in this gallery.</p>
     </div>
 
-    <div class="p2-h">
+    <div v-if="hasItems" class="p2-h">
       <input class="search-input" type="text" v-model="query" placeholder="search">
     </div>
 
-    <div v-for="item in items" :key="item.created_at" class="card m1 noscroll">
+    <div v-for="item in items" :key="item.created_at" class="gallery-item">
       <podcast v-if="item.item_type === 'podcast'" :item="item" :filter="query" />
+      <you-tube v-if="item.item_type === 'youtube'" :item="item" :filter="query" />
       <!-- <component :is="componentForItem(item)" :galleryItem="item" /> -->
     </div>
 
@@ -43,6 +44,7 @@ import GalleryImage from '@/components/GalleryImage'
 import Modal from '@/components/Modal'
 import GalleryItemAdd from '@/views/GalleryItemAdd'
 import Podcast from '@/components/gallery-items/Podcast'
+import YouTube from '@/components/gallery-items/YouTube'
 import { mapActions } from 'vuex'
 import api from '@/js/api'
 
@@ -57,10 +59,10 @@ export default {
       addingContent: false
     }
   },
-  components: { GalleryImage, Modal, GalleryItemAdd, Podcast },
+  components: { GalleryImage, Modal, GalleryItemAdd, Podcast, YouTube },
   computed: {
-    hasNoItems () {
-      return !this.items || this.items.length === 0
+    hasItems () {
+      return this.items && this.items.length > 0
     },
     canAddContent () {
       return ['curator', 'owner'].includes(this.userRole)
@@ -108,15 +110,18 @@ export default {
 .gallery {
   .close-button {
     @extend .absolute;
-    @extend .p2;
     @extend .z1;
-    i {
-      @extend .shadow-primary3;
-      @extend .border-primary3;
-      padding: 8px;
-      background: var(--muted3);
-      border-radius: 50%;
-    }
+    @extend .shadow-primary3;
+    @extend .border-primary3;
+    @extend .flex-column;
+    @extend .align-center;
+    @extend .flex-center;
+    top: 16px;
+    left: 16px;
+    width: 33px;
+    height: 33px;
+    background: var(--muted3);
+    border-radius: 50%;
   }
   .image-backing {
     @extend .absolute;
@@ -127,6 +132,14 @@ export default {
     width: 170px;
     height: 170px;
     background: white;
+  }
+  .gallery-item {
+    @extend .bg-hi;
+    @extend .border-primary;
+    @extend .p1;
+    @extend .rounded;
+    @extend .m1;
+    @extend .noscroll;
   }
 }
 .search-input {

@@ -4,7 +4,7 @@
       <div id="titlebar" class="p2 p0-bottom flex-row align-center m2-bottom">
         <h1 class="flex-one primary">Home</h1>
         <p v-if="isSignedIn" @click="$router.push('/mine')"><i class="far fa-user"></i></p>
-        <router-link v-if="!isSignedIn" to="SignIn">Sign in</router-link>
+        <button v-if="!isSignedIn" @click="$router.push({ name: 'SignIn' })" class="button-alt">Sign in</button>
       </div>
 
       <div v-if="recentGalleries.length" class="continue p2">
