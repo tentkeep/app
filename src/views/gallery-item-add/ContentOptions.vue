@@ -12,16 +12,12 @@
       </div>
       <p class="font-1">YouTube</p>
     </div>
-    <!-- <div class="flex-column align-center">
+    <div class="flex-column align-center" @click="$emit('input', 'etsy')">
       <div class="option-icon">
-      </div>
-      <p class="font-1">Spotify</p>
-    </div>
-    <div class="flex-column align-center">
-      <div class="option-icon">
+        <div class="cover absolute flex-column flex-center text-center"><p class="hi font3">E</p></div>
       </div>
       <p class="font-1">Etsy</p>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -46,7 +42,6 @@ export default {
     @extend .square;
     @extend .rounded;
     @extend .bg-primary;
-    // @extend .border-primary;
     width: 60px;
   }
 }

@@ -54,6 +54,7 @@ export default {
     headers: headersForPost(token),
     body
   }),
+  searchEtsyShops: (query) => appApi(`${host}/proxy/etsy/shops?q=${query}`),
   // non-Tentkeep
   searchPodcasts: (query) => appApi(`https://itunes.apple.com/search?entity=podcast&limit=20&term=${query}`)
 }

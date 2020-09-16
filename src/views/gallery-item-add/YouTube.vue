@@ -1,7 +1,7 @@
 <template>
   <div class="p2">
     <form @submit.prevent="saveItem" class="v-fill flex-column">
-      <label for="feedUrl" class="primary font-2">*YouTube channel username:</label>
+      <label for="youtubeUsername" class="primary font-2">*YouTube channel username:</label>
       <input
         name="youtubeUsername"
         type="text"

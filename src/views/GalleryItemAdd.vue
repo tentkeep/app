@@ -24,6 +24,8 @@ export default {
   computed: {
     contentTypeHeader () {
       switch (this.addItemType) {
+        case 'etsy':
+          return 'Etsy'
         case 'podcast':
           return 'Podcast'
         case 'youtube':
@@ -36,6 +38,8 @@ export default {
       switch (this.addItemType) {
         case 'saving':
           return () => import('@/views/gallery-item-add/Saving')
+        case 'etsy':
+          return () => import('@/views/gallery-item-add/Etsy')
         case 'podcast':
           return () => import('@/views/gallery-item-add/Podcast')
         case 'youtube':

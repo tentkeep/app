@@ -23,6 +23,7 @@
     </div>
 
     <div v-for="item in items" :key="item.created_at" class="gallery-item">
+      <etsy v-if="item.item_type === 'etsy'" :item="item" :filter="query" />
       <podcast v-if="item.item_type === 'podcast'" :item="item" :filter="query" />
       <you-tube v-if="item.item_type === 'youtube'" :item="item" :filter="query" />
       <!-- <component :is="componentForItem(item)" :galleryItem="item" /> -->
@@ -43,6 +44,7 @@
 import GalleryImage from '@/components/GalleryImage'
 import Modal from '@/components/Modal'
 import GalleryItemAdd from '@/views/GalleryItemAdd'
+import Etsy from '@/components/gallery-items/Etsy'
 import Podcast from '@/components/gallery-items/Podcast'
 import YouTube from '@/components/gallery-items/YouTube'
 import { mapActions } from 'vuex'
@@ -59,7 +61,7 @@ export default {
       addingContent: false
     }
   },
-  components: { GalleryImage, Modal, GalleryItemAdd, Podcast, YouTube },
+  components: { GalleryImage, Modal, GalleryItemAdd, Etsy, Podcast, YouTube },
   computed: {
     hasItems () {
       return this.items && this.items.length > 0
