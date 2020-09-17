@@ -28,6 +28,8 @@ export default {
           return 'Etsy'
         case 'podcast':
           return 'Podcast'
+        case 'wordpress':
+          return 'Wordpress'
         case 'youtube':
           return 'YouTube'
         default:
@@ -42,6 +44,8 @@ export default {
           return () => import('@/views/gallery-item-add/Etsy')
         case 'podcast':
           return () => import('@/views/gallery-item-add/Podcast')
+        case 'wordpress':
+          return () => import('@/views/gallery-item-add/Wordpress')
         case 'youtube':
           return () => import('@/views/gallery-item-add/YouTube')
         default:
