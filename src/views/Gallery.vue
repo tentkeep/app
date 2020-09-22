@@ -6,7 +6,7 @@
       </div>
     </router-link>
 
-    <div class="flex-column align-center relative m2-top m4-bottom">
+    <div class="banner-wrapper">
       <div class="banner-image p1 bg-hi shadow-primary2" :style="bannerImageStyles">
         <gallery-image :galleryId="gallery.id" size="60vw" maxSize="300px" class="shadow-primary2" />
       </div>
@@ -17,8 +17,9 @@
         <div class="flex-row p1">
           <div class="button-space"></div>
           <p class="flex-one text-center primary bold font2">{{ gallery.title }}</p>
+
           <div class="button-space flex-bottom">
-            <button v-if="!isSearching" class="button-alt border-muted2" @click="startSearch"><i class="fas fa-search" /></button>
+            <button v-if="!isSearching" class="button-icon" @click="startSearch"><i class="fas fa-search" /></button>
           </div>
         </div>
         <transition name="fade-in">
@@ -92,6 +93,9 @@ export default {
         // filter: `blur(${10 * this.scrollRatio}px)`
       }
     },
+    isOwner () {
+      return this.userRole === 'owner'
+    },
     canAddContent () {
       return ['curator', 'owner'].includes(this.userRole)
     }
@@ -152,6 +156,7 @@ export default {
 @import "../assets/app";
 
 .gallery {
+  overflow-x: hidden;
   .close-button {
     @extend .absolute;
     @extend .z2;
@@ -166,6 +171,13 @@ export default {
     width: 33px;
     height: 33px;
     border-radius: 50%;
+  }
+  .banner-wrapper {
+    @extend .flex-column;
+    @extend .align-center;
+    @extend .relative;
+    @extend .m2-top;
+    @extend .m4-bottom;
   }
   .gallery-titlebar {
     @extend .bg-hi;

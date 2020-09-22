@@ -47,6 +47,15 @@ a {
   border-radius: 10px;
   background: none;
 }
+.button-icon {
+  @extend .muted-color;
+  border-left: none;
+  border-right: none;
+  @extend .border-top-muted3;
+  @extend .border-bottom-muted3;
+  border-radius: 2px;
+  background: none;
+}
 .square {
   position: relative;
   overflow: hidden;
