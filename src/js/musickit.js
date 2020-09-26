@@ -1,6 +1,8 @@
+import logger from '@/js/logger'
+
 let _music
 
-const music = () => {
+const init = () => {
   return new Promise((resolve, reject) => {
     if (!window.MusicKit) {
       const script = document.createElement('script')
@@ -8,7 +10,7 @@ const music = () => {
       document.head.appendChild(script)
 
       document.addEventListener('musickitloaded', function () {
-        console.log('loaded MusicKit')
+        logger.log('loaded MusicKit')
         window.MusicKit.configure({
           developerToken: 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlpHNjM5SjNKMjYifQ.eyJpYXQiOjE2MDA3NTA3NzYsImV4cCI6MTYxNjMwMjc3NiwiaXNzIjoiTDIyM0ZNOVRMQSJ9.nRUGN7B5wllQvMCGrO1KuIYTWOJVepQr8UU0hlhcIJFPjm0oRyeBRJ0b99fgSqcK79nZfvpNlcMLmcRec07T6w',
           app: {
@@ -26,6 +28,8 @@ const music = () => {
   })
 }
 
+init()
+
 const buildMediaItem = item => {
   return new window.MusicKit.MediaItem({
     id: item.id,
@@ -42,17 +46,20 @@ const buildMediaItem = item => {
 
 export default {
   playNow (item) {
-    return music()
-      .then(m => {
-        const mediaItem = buildMediaItem(item)
-        m.player.queue.append({ items: [mediaItem] })
-        m.player.play()
-      })
+    const mediaItem = buildMediaItem(item)
+    _music.player.queue.append({ items: [mediaItem] })
+    _music.player.skipToNextItem()
+  },
+  pause () {
+    _music.pause()
+  },
+  play () {
+    _music.play()
+  },
+  isPlaying () {
+    return _music.isPlaying
   },
   addEventListener (event, callback) {
-    console.log('add listener', event)
-    music().then(m => {
-      m.addEventListener(event, callback)
-    })
+    _music.addEventListener(event, callback)
   }
 }

@@ -4,7 +4,7 @@
     <div class="flex-row align-center">
       <div class="flex-one noscroll p1">
         <p class="font-1 lines1">{{nowPlayingTitle}}</p>
-        <p class="time-label">{{progressTime}} / {{nowPlayingDuration}}</p>
+        <p class="time-label">{{nowPlayingRemaining}}</p>
       </div>
       <div v-if="isPlaying" class="font5 p1 muted-color" @click="pause">
         <i class="far fa-pause-circle" />
@@ -23,14 +23,16 @@ import musickit from '@/js/musickit'
 const formatTime = seconds => new Date(1000 * seconds)
   .toISOString()
   .substr(11, 8)
-  .replace(/(00:00|00:0|00:)/, '')
+  .replace(/(00:0|00:)/, '')
 
 export default {
   name: 'AudioPlayer',
   data () {
     return {
+      player: null,
       nowPlaying: null,
       nowPlayingDuration: null,
+      nowPlayingRemaining: null,
       progress: 0,
       progressTime: '0:00',
       audio: null,
@@ -51,8 +53,8 @@ export default {
   },
   methods: {
     resume () {
-      if (this.audio) {
-        this.audio.play()
+      if (this.player) {
+        this.player.play()
       }
     },
     pause () {
@@ -60,8 +62,8 @@ export default {
 
       // save progress
       // metrics for provider compensation
-      if (this.audio) {
-        this.audio.pause()
+      if (this.player) {
+        this.player.pause()
       }
     },
     beginPlaying (audioItem) {
@@ -74,16 +76,19 @@ export default {
       }
       if (type === 'music') {
         if (item.services.apple) {
-          musickit.playNow(item)
-            .then(_ => {
-              musickit.addEventListener('playbackDurationDidChange', event => (this.nowPlayingDuration = formatTime(event.duration)))
-              musickit.addEventListener('playbackTimeDidChange', event => (this.progressTime = formatTime(event.currentPlaybackTime)))
-            })
+          this.playMusickit(item)
         }
       }
     },
+    updateProgress (currentTime, duration) {
+      const progress = currentTime / duration
+      this.progress = Math.round(progress * 1000) / 10
+      this.progressTime = formatTime(currentTime)
+      this.nowPlayingRemaining = `-${formatTime(duration - currentTime)}`
+    },
     playUrl (url) {
       this.audio = new Audio(url)
+      this.player = this.audio
 
       this.audio.addEventListener('durationchange', e => {
         this.nowPlayingDuration = formatTime(this.audio.duration)
@@ -91,11 +96,20 @@ export default {
       this.audio.addEventListener('play', e => { this.isPlaying = true })
       this.audio.addEventListener('pause', e => { this.isPlaying = false })
       this.audio.addEventListener('timeupdate', e => {
-        const progress = this.audio.currentTime / this.audio.duration
-        this.progress = Math.round(progress * 1000) / 10
-        this.progressTime = formatTime(this.audio.currentTime)
+        this.updateProgress(this.audio.currentTime, this.audio.duration)
       })
       this.audio.play()
+    },
+    playMusickit (item) {
+      this.player = musickit
+      musickit.playNow(item)
+      musickit.addEventListener('playbackDurationDidChange', event => (this.nowPlayingDuration = formatTime(event.duration)))
+      musickit.addEventListener('playbackTimeDidChange', event => {
+        this.updateProgress(event.currentPlaybackTime, event.currentPlaybackDuration)
+      })
+      musickit.addEventListener('playbackStateDidChange', e => {
+        this.isPlaying = e.state === 2
+      })
     }
   }
 }

@@ -110,7 +110,6 @@ export default {
       })
     },
     componentForItem (item) {
-      console.log('ITEM', item.item_type)
       switch (item.item_type) {
         case 'podcast':
           return () => import('@/components/gallery-items/Podcast')

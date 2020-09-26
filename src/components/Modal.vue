@@ -20,7 +20,6 @@ export default {
   props: ['value'],
   methods: {
     dismiss () {
-      console.log('hi')
       this.$emit('input', false)
     }
   }

@@ -46,7 +46,6 @@ export default {
       return div.textContent
     },
     goTo (listing) {
-      console.log('GoTo', listing)
       window.open(listing.url)
     }
   }
