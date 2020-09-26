@@ -18,6 +18,7 @@ export default {
   },
   getPodcastSummary: feedUrl => appApi(`${host}/proxy/rss/podcast-summary?feed=${feedUrl}`),
   // Galleries
+  getGallery: galleryId => appApi(`${host}/galleries/${galleryId}`),
   getGalleries: () => appApi(`${host}/galleries`),
   getGalleriesForUser: token => appApi(`${host}/galleries/me`, { headers: authHeaders(token) }),
   getGalleryImageUrl: galleryId => `${host}/galleries/${galleryId}/image`,

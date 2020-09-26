@@ -6,55 +6,57 @@
       </div>
     </router-link>
 
-    <div class="banner-wrapper">
-      <div class="banner-image p1 bg-hi shadow-primary2" :style="bannerImageStyles">
-        <gallery-image :galleryId="gallery.id" size="60vw" maxSize="300px" class="shadow-primary2" />
-      </div>
-    </div>
-
-    <div class="relative z1 p2-bottom">
-      <div class="gallery-titlebar">
-        <div class="flex-row p1">
-          <div class="button-space"></div>
-          <p class="flex-one text-center primary bold font2">{{ gallery.title }}</p>
-
-          <div class="button-space flex-bottom">
-            <button v-if="!isSearching" class="button-icon" @click="startSearch"><i class="fas fa-search" /></button>
-          </div>
+    <div v-if="!isLoadingGallery">
+      <div class="banner-wrapper">
+        <div class="banner-image p1 bg-hi shadow-primary2" :style="bannerImageStyles">
+          <gallery-image :galleryId="Gallery.id" size="60vw" maxSize="300px" class="shadow-primary2" />
         </div>
-        <transition name="fade-in">
-          <div v-if="isSearching" class="search flex-row">
-            <input name="query" class="search-input" type="text" v-model="query" placeholder="search" />
-            <button class="search-close" @click="clearSearch"><i class="fas fa-times" /></button>
+      </div>
+
+      <div class="relative z1 p2-bottom">
+        <div class="gallery-titlebar">
+          <div class="flex-row p1">
+            <div class="button-space"></div>
+            <p class="flex-one text-center primary bold font2">{{ Gallery.title }}</p>
+
+            <div class="button-space flex-bottom">
+              <button v-if="!isSearching" class="button-icon" @click="startSearch"><i class="fas fa-search" /></button>
+            </div>
           </div>
-        </transition>
+          <transition name="fade-in">
+            <div v-if="isSearching" class="search flex-row">
+              <input name="query" class="search-input" type="text" v-model="query" placeholder="search" />
+              <button class="search-close" @click="clearSearch"><i class="fas fa-times" /></button>
+            </div>
+          </transition>
+        </div>
+
+        <div v-if="!hasItems" class="flex-column align-center">
+          <p class="text-center p2 rounded primary">
+            There is no content
+            <br />in this gallery.
+          </p>
+        </div>
+
+        <div v-for="item in items" :key="item.created_at" class="gallery-item">
+          <etsy v-if="item.item_type === 'etsy'" :item="item" :filter="query" />
+          <music v-if="item.item_type === 'music'" :item="item" :filter="query" />
+          <podcast v-if="item.item_type === 'podcast'" :item="item" :filter="query" />
+          <wordpress v-if="item.item_type === 'wordpress'" :item="item" :filter="query" />
+          <you-tube v-if="item.item_type === 'youtube'" :item="item" :filter="query" />
+          <!-- <component :is="componentForItem(item)" :galleryItem="item" /> -->
+        </div>
+
+        <!-- curator / owner section -->
+        <div v-if="canAddContent" class="flex-column align-center m2 p2-top border-top-primary">
+          <button class="button" @click="addingContent = true">Add content</button>
+        </div>
       </div>
 
-      <div v-if="!hasItems" class="flex-column align-center">
-        <p class="text-center p2 rounded primary">
-          There is no content
-          <br />in this gallery.
-        </p>
-      </div>
-
-      <div v-for="item in items" :key="item.created_at" class="gallery-item">
-        <etsy v-if="item.item_type === 'etsy'" :item="item" :filter="query" />
-        <music v-if="item.item_type === 'music'" :item="item" :filter="query" />
-        <podcast v-if="item.item_type === 'podcast'" :item="item" :filter="query" />
-        <wordpress v-if="item.item_type === 'wordpress'" :item="item" :filter="query" />
-        <you-tube v-if="item.item_type === 'youtube'" :item="item" :filter="query" />
-        <!-- <component :is="componentForItem(item)" :galleryItem="item" /> -->
-      </div>
-
-      <!-- curator / owner section -->
-      <div v-if="canAddContent" class="flex-column align-center m2 p2-top border-top-primary">
-        <button class="button" @click="addingContent = true">Add content</button>
-      </div>
+      <modal v-model="addingContent">
+        <gallery-item-add :gallery="Gallery" @done="galleryItemAddDone" />
+      </modal>
     </div>
-
-    <modal v-model="addingContent">
-      <gallery-item-add :gallery="gallery" @done="galleryItemAddDone" />
-    </modal>
   </div>
 </template>
 
@@ -75,6 +77,9 @@ export default {
   props: ['gallery'],
   data () {
     return {
+      Gallery: null,
+      isLoadingGallery: true,
+      isLoadingGalleryItems: true,
       items: [],
       query: null,
       userRole: null,
@@ -86,13 +91,12 @@ export default {
   components: { GalleryImage, Modal, GalleryItemAdd, Etsy, Music, Podcast, Wordpress, YouTube },
   computed: {
     hasItems () {
-      return this.items && this.items.length > 0
+      return !this.isLoadingGalleryItems && this.items && this.items.length > 0
     },
     bannerImageStyles () {
       return {
         transform: `scale(${1 + this.scrollRatio})`,
         opacity: 1 - this.scrollRatio
-        // filter: `blur(${10 * this.scrollRatio}px)`
       }
     },
     isOwner () {
@@ -105,7 +109,8 @@ export default {
   methods: {
     ...mapActions(['getGalleryUserRole']),
     getItems () {
-      api.getGalleryItems(this.gallery.id).then((items) => {
+      api.getGalleryItems(this.Gallery.id).then((items) => {
+        this.isLoadingGalleryItems = false
         this.items = items
       })
     },
@@ -138,17 +143,26 @@ export default {
       if (item) {
         this.getItems()
       }
+    },
+    async ensureGalleryFetched () {
+      if (typeof this.Gallery === 'string') {
+        this.isLoadingGallery = true
+        this.Gallery = await api.getGallery(this.Gallery)
+      }
+      this.isLoadingGallery = false
     }
   },
-  mounted () {
-    this.getGalleryUserRole(this.gallery.id).then((userRole) => {
+  async mounted () {
+    this.Gallery = this.gallery // can't mutate props
+    await this.ensureGalleryFetched()
+    this.getItems()
+    this.getGalleryUserRole(this.Gallery.id).then((userRole) => {
       if (userRole.is_owner) {
         this.userRole = 'owner'
       } else if (userRole.is_member) {
         this.userRole = 'member'
       }
     })
-    this.getItems()
   }
 }
 </script>
