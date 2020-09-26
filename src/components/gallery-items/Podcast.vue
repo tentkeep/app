@@ -7,9 +7,12 @@
       <h3 class="primary m1-left">{{ podcast.title }}</h3>
     </div>
 
-    <div v-for="episode in items" :key="episode.pubDate" class="episode-row" @click="play(episode)">
-      <div><i class="far fa-play-circle primary2"></i></div>
-      <p class="p1-left font-1">{{ episode.title }}</p>
+    <div v-for="episode in items" :key="episode.pubDate" class="item-row" @click="play(episode)">
+      <div class="m1-right"><i class="far fa-play-circle primary3 opacity60"></i></div>
+      <div class="flex-one p1-right lines1">
+        <p class="lines1">{{ episode.title }}</p>
+        <p class="muted2 font-2">{{ date(episode) }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -37,8 +40,11 @@ export default {
     }
   },
   methods: {
+    date (episode) {
+      return new Date(episode.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' })
+    },
     play (episode) {
-      new Audio(episode.link.url).play()
+      this.playAudio(episode, 'podcast')
     }
   }
 }

@@ -27,6 +27,13 @@
       </div>
       <p class="font-1">Etsy</p>
     </div>
+
+    <div class="flex-column align-center" @click="$emit('input', 'music')">
+      <div class="option-icon">
+        <div class="cover absolute flex-column flex-center text-center"><p class="hi font3">M</p></div>
+      </div>
+      <p class="font-1">Music</p>
+    </div>
   </div>
 </template>
 
@@ -46,7 +53,7 @@ export default {
   @extend .p2;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 4px;
+  gap: 16px 4px;
   .option-icon {
     @extend .square;
     @extend .rounded;

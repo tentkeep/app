@@ -114,10 +114,13 @@ export default {
     @extend .primary2;
     @extend .p2-top;
     @extend .p2-bottom;
-    transition: background, color .3s;
+    transition: background, color, transform .2s;
     &.active {
       @extend .hi;
       @extend .bg-muted2;
+      i {
+        transform: scale(1.4);
+      }
     }
     &:not(:last-child) {
       @extend .border-right-muted2;

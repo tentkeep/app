@@ -1,13 +1,16 @@
 <template>
   <div id="app" class="v-fill flex-column">
     <router-view class="flex-one scrolly"/>
+    <audio-player />
   </div>
 </template>
 
 <script>
+import AudioPlayer from '@/components/AudioPlayer'
+
 export default {
   name: 'App',
-  components: {}
+  components: { AudioPlayer }
 }
 </script>
 

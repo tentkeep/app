@@ -2,20 +2,24 @@
   <div v-show="!hide">
     <div class="flex-row align-center m1-bottom">
       <div class="m1-left">
-        <h3 class="primary">{{ site.title }}</h3>
+        <h3 class="primary"><span class="muted2 uppercase font-2 border-right-muted3 p1-right m1-right">Posts</span>{{ site.title }}</h3>
       </div>
     </div>
 
-    <div v-for="post in items" :key="post.date" class="listing-row" @click="show(post)">
+    <div v-for="post in items" :key="post.date" class="item-row" @click="show(post)">
       <div class="v-fill"><img :src="post.image" class="v-fill"></div>
-      <p class="listing-title">{{ htmlDecode(post.title) }}</p>
+      <div v-if="!post.image" class="m1-right"><i class="fab fa-readme primary3 opacity60"></i></div>
+      <div class="flex-one p1-right lines1">
+        <p>{{ htmlDecode(post.title) }}</p>
+        <p class="muted2 font-2">{{ date(post) }}</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'YouTube',
+  name: 'Wordpress',
   props: ['item', 'filter'],
   computed: {
     site () {
@@ -41,6 +45,9 @@ export default {
       div.innerHTML = text
       return div.textContent
     },
+    date (post) {
+      return new Date(post.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' })
+    },
     show (post) {
       window.open(post.url)
     }
@@ -54,32 +61,5 @@ export default {
 .site-image {
   @extend .border-muted2;
   height: 60px;
-}
-.listing-row {
-  $row-height: 45px;
-  @extend .flex-row;
-  @extend .align-center;
-  @extend .border-bottom-muted3;
-  position: relative;
-  height: $row-height;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  overflow: hidden;
-  &:last-child {
-    border-bottom: none;
-  }
-  &::after {
-    content: 'hello';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(0deg, var(--hi), transparent);
-  }
-  .listing-title {
-    @extend .p1-left;
-    @extend .font-1;
-  }
 }
 </style>

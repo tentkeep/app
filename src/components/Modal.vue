@@ -7,7 +7,7 @@
           <slot />
         </div>
         <div class="z1 m2-bottom">
-          <button class="h-fill border-primary3 bg-primary3 p1 primary uppercase" @click="dismiss">Close</button>
+          <button class="h-fill border-primary3 bg-primary3 p1 hi uppercase" @click="dismiss">Close</button>
         </div>
       </div>
     </div>

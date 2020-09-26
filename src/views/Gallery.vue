@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div class="relative z1">
+    <div class="relative z1 p2-bottom">
       <div class="gallery-titlebar">
         <div class="flex-row p1">
           <div class="button-space"></div>
@@ -39,6 +39,7 @@
 
       <div v-for="item in items" :key="item.created_at" class="gallery-item">
         <etsy v-if="item.item_type === 'etsy'" :item="item" :filter="query" />
+        <music v-if="item.item_type === 'music'" :item="item" :filter="query" />
         <podcast v-if="item.item_type === 'podcast'" :item="item" :filter="query" />
         <wordpress v-if="item.item_type === 'wordpress'" :item="item" :filter="query" />
         <you-tube v-if="item.item_type === 'youtube'" :item="item" :filter="query" />
@@ -62,6 +63,7 @@ import GalleryImage from '@/components/GalleryImage'
 import Modal from '@/components/Modal'
 import GalleryItemAdd from '@/views/GalleryItemAdd'
 import Etsy from '@/components/gallery-items/Etsy'
+import Music from '@/components/gallery-items/Music'
 import Podcast from '@/components/gallery-items/Podcast'
 import Wordpress from '@/components/gallery-items/Wordpress'
 import YouTube from '@/components/gallery-items/YouTube'
@@ -81,7 +83,7 @@ export default {
       addingContent: false
     }
   },
-  components: { GalleryImage, Modal, GalleryItemAdd, Etsy, Podcast, Wordpress, YouTube },
+  components: { GalleryImage, Modal, GalleryItemAdd, Etsy, Music, Podcast, Wordpress, YouTube },
   computed: {
     hasItems () {
       return this.items && this.items.length > 0
@@ -160,6 +162,7 @@ export default {
   .close-button {
     @extend .absolute;
     @extend .z2;
+    @extend .border-primary3;
     @extend .shadow-primary3;
     @extend .flex-column;
     @extend .align-center;
@@ -182,6 +185,7 @@ export default {
   .gallery-titlebar {
     @extend .bg-hi;
     @extend .m2-bottom;
+    @extend .shadow-primary3;
     .button-space {
       @extend .flex-row;
       width: 60px;
@@ -198,8 +202,11 @@ export default {
     background: white;
   }
   .gallery-item {
-    @extend .bg-hi;
-    @extend .border-primary;
+    // @extend .bg-hi;
+  --hi80: rgb(var(--base-colorR), var(--base-colorG), var(--base-colorB), 0.8);
+    background-color: var(--hi80);
+    // @extend .border-primary3;
+    @extend .shadow-primary3;
     @extend .p1;
     @extend .rounded;
     @extend .m1;

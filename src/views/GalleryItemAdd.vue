@@ -26,6 +26,8 @@ export default {
       switch (this.addItemType) {
         case 'etsy':
           return 'Etsy'
+        case 'music':
+          return 'Music'
         case 'podcast':
           return 'Podcast'
         case 'wordpress':
@@ -42,6 +44,8 @@ export default {
           return () => import('@/views/gallery-item-add/Saving')
         case 'etsy':
           return () => import('@/views/gallery-item-add/Etsy')
+        case 'music':
+          return () => import('@/views/gallery-item-add/Music')
         case 'podcast':
           return () => import('@/views/gallery-item-add/Podcast')
         case 'wordpress':

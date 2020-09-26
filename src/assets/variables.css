@@ -8,7 +8,7 @@
   --shadowRGB: 35, 33, 34;
   --shadow-color: rgb(var(--shadowRGB));
 
-  --hi: rgba(var(--base-colorR), var(--base-colorG), var(--base-colorB), 1);
+  --hi: rgb(var(--base-colorR), var(--base-colorG), var(--base-colorB), 1);
 
   --bg-gradient: radial-gradient(circle at top, var(--hi), var(--muted3), transparent),
   radial-gradient(ellipse at bottom, var(--hi), var(--hi), var(--muted3), transparent);
