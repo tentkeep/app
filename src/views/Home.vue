@@ -7,18 +7,6 @@
         <button v-if="!isSignedIn" @click="$router.push({ name: 'SignIn' })" class="button-alt">Sign in</button>
       </div>
 
-      <div v-if="recentGalleries.length" class="continue p2">
-        <h3 class="m1-bottom">Jump back in</h3>
-        <div class="home-continue-grid">
-          <div v-for="item in recentGalleries" :key="item.id" class="item">
-            <div class="home-continue-image" :style="{'background-image': `url(${item.image})`}" />
-            <div class="label">
-              {{item.title}}
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="explore m2-top p1">
         <h3 class="m1-bottom">Explore</h3>
         <gallery-grid :galleries="exploreGalleries" />
@@ -45,7 +33,7 @@ export default {
   name: 'Home',
   data () {
     return {
-      recentGalleries: [],
+      lastFetch: null,
       exploreGalleries: [],
       filters: ['music', 'video', 'podcast', 'book', 'shopping-cart', 'palette'],
       filter: null
@@ -56,6 +44,13 @@ export default {
   },
   components: { GalleryGrid },
   methods: {
+    async fetchGalleries () {
+      const threshold = 15 * 60 * 1000
+      if (!this.lastFetch || new Date().getTime() - this.lastFetch.getTime() > threshold) {
+        this.exploreGalleries = await api.getGalleries()
+        this.lastFetch = new Date()
+      }
+    },
     galleryImageUrl (galleryId) {
       return api.getGalleryImageUrl(galleryId)
     },
@@ -64,8 +59,7 @@ export default {
     }
   },
   mounted () {
-    api.getGalleries()
-      .then(galleries => { this.exploreGalleries = galleries })
+    this.fetchGalleries()
   }
 }
 </script>

@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 
 Vue.mixin({
   methods: {
-    ...mapActions(['setCurrentAudio']),
+    ...mapActions(['setCurrentVideo', 'setCurrentAudio']),
     alert (content) {
       window.alert(content)
     },
@@ -18,6 +18,9 @@ Vue.mixin({
     },
     playAudio (item, type) {
       this.setCurrentAudio({ item, type })
+    },
+    playVideo (item, type) {
+      this.setCurrentVideo({ item, type })
     }
   }
 })

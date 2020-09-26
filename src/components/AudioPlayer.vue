@@ -4,8 +4,8 @@
     <div class="flex-row align-center">
       <div class="flex-one noscroll p1">
         <p class="font-1 lines1">{{nowPlayingTitle}}</p>
-        <p class="time-label">{{nowPlayingRemaining}}</p>
       </div>
+      <p class="time-label">{{nowPlayingRemaining}}</p>
       <div v-if="isPlaying" class="font5 p1 muted-color" @click="pause">
         <i class="far fa-pause-circle" />
       </div>

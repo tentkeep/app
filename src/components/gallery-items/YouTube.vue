@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     play (video) {
-      console.log('Play', video)
+      this.playVideo(video, 'youtube')
     }
   }
 }

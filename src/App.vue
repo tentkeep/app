@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="v-fill flex-column">
+    <video-player />
     <router-view class="flex-one scrolly"/>
     <audio-player />
   </div>
@@ -7,10 +8,11 @@
 
 <script>
 import AudioPlayer from '@/components/AudioPlayer'
+import VideoPlayer from '@/components/VideoPlayer'
 
 export default {
   name: 'App',
-  components: { AudioPlayer }
+  components: { AudioPlayer, VideoPlayer }
 }
 </script>
 

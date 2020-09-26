@@ -1,6 +1,6 @@
 <template>
   <div class="gallery" @scroll="onScroll">
-    <router-link to="/" class="uppercase primary font-3">
+    <router-link to="/" class="fixed z3 uppercase primary font-3">
       <div class="close-button">
         <i class="fas fa-chevron-left" />
       </div>
@@ -171,6 +171,7 @@ export default {
 @import "../assets/app";
 
 .gallery {
+  @extend .relative;
   overflow-x: hidden;
   .close-button {
     @extend .absolute;

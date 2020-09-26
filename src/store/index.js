@@ -8,7 +8,8 @@ Vue.use(Vuex)
 const state = {
   tokens: null,
   user: null,
-  currentAudio: null
+  currentAudio: null,
+  currentVideo: null
 }
 
 const { getters, mutations, actions } = storeGen(state)
