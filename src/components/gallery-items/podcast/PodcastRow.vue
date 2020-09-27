@@ -1,8 +1,8 @@
 <template>
-  <div class="item-row" @click="playAudio(episode, 'podcast')">
+  <div class="item-row" @click="playAudio(item, 'podcast')">
     <div class="flex-one p1-right lines1">
-      <p class="lines1">{{ episode.title }}</p>
-      <p class="muted2 font-2">{{ date(episode) }}</p>
+      <p class="lines1">{{ item.title }}</p>
+      <p class="muted2 font-2">{{ date(item) }}</p>
     </div>
   </div>
 </template>
@@ -10,10 +10,10 @@
 <script>
 export default {
   name: 'PodcastRow',
-  props: ['episode'],
+  props: ['item'],
   methods: {
-    date (episode) {
-      return new Date(episode.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' })
+    date (item) {
+      return new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' })
     }
   }
 }

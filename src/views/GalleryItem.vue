@@ -13,6 +13,8 @@ export default {
       switch (this.item.item_type) {
         case 'podcast':
           return () => import('@/components/gallery-items/podcast/PodcastFull.vue')
+        case 'youtube':
+          return () => import('@/components/gallery-items/youtube/YouTubeFull.vue')
         default: return '<template><div>unknown</div></template>'
       }
     }

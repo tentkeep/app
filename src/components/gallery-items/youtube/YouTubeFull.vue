@@ -4,30 +4,30 @@
 
     <div class="flex-row m1-bottom">
       <div>
-        <img :src="podcast.image" class="podcast-image" />
+        <img :src="details.thumbnail.url" class="video-image" />
       </div>
       <div class="flex-one m1-left p1-right p1-top">
-        <h3 class="primary">{{ podcast.title }}</h3>
-        <p class="font-2" :class="{ lines2: !showMoreDescription }">{{ podcast.description }}</p>
+        <h3 class="primary">{{ details.title }}</h3>
+        <p class="font-2" :class="{ lines2: !showMoreDescription }">{{ details.description }}</p>
         <a class="pull-right primary2 font-2" @click="toggleMoreDescription">{{ showMoreDescription ? 'less' : 'more' }}</a>
       </div>
     </div>
 
-    <p class="muted-color p1-left m1-bottom uppercase font-2">Episodes</p>
+    <p class="muted-color p1-left m1-bottom uppercase font-2">Videos ({{items.length}})</p>
     <div class="flex-one p1-left p1-right p2-bottom scrolly">
-      <podcast-row v-for="entry in items" :key="entry.pubDate" :item="entry" />
+      <you-tube-row v-for="entry in items" :key="entry.id" :item="entry" />
     </div>
   </div>
 </template>
 
 <script>
 import ItemTitlebar from '@/components/gallery-items/ItemTitlebar'
-import PodcastRow from '@/components/gallery-items/podcast/PodcastRow'
+import YouTubeRow from '@/components/gallery-items/youtube/YouTubeRow'
 
 export default {
-  name: 'PodcastFull',
+  name: 'YouTubeFull',
   props: ['item'],
-  components: { ItemTitlebar, PodcastRow },
+  components: { ItemTitlebar, YouTubeRow },
   data () {
     return {
       filter: null,
@@ -35,17 +35,19 @@ export default {
     }
   },
   computed: {
-    podcast () {
+    details () {
       return this.item.details
     },
     items () {
       if (this.filter) {
         const l = s => s.toLowerCase()
         const filter = l(this.filter)
-        return this.podcast.items
-          .filter(i => l(i.title).includes(filter) || l(i.description).includes(filter))
+        return this.details.uploads.items
+          .filter(i => l(i.title).includes(filter))
+          .slice(0, 1000)
       }
-      return this.podcast.items
+      return this.details.uploads.items
+        .slice(0, 1000)
     }
   },
   methods: {
@@ -60,7 +62,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.podcast-image {
+.video-image {
   @extend .square;
   @extend .border-muted2;
   width: 80px;

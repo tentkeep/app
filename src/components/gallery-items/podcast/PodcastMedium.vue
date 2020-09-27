@@ -8,7 +8,7 @@
       <div class="p1 muted3"><i class="fas fa-chevron-right"></i></div>
     </div>
 
-    <podcast-row v-for="episode in items" :key="episode.pubDate" :episode="episode" />
+    <podcast-row v-for="episode in items" :key="episode.pubDate" :item="episode" />
   </div>
 </template>
 

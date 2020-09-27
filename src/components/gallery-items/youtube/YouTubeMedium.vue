@@ -11,17 +11,17 @@
       <div class="p1 muted3"><i class="fas fa-chevron-right"></i></div>
     </div>
 
-    <div v-for="video in items" :key="video.id" class="item-row flush-left" @click="play(video)">
-      <div class="v-fill"><img :src="video.thumbnail" class="v-fill"></div>
-      <p class="video-title">{{ video.title }}</p>
-    </div>
+    <you-tube-row v-for="video in items" :key="video.id" :item="video" />
   </div>
 </template>
 
 <script>
+import YouTubeRow from '@/components/gallery-items/youtube/YouTubeRow'
+
 export default {
   name: 'YouTube',
   props: ['item', 'filter'],
+  components: { YouTubeRow },
   computed: {
     channel () {
       return this.item.details
@@ -39,11 +39,6 @@ export default {
     hide () {
       return this.filter && this.items.length === 0
     }
-  },
-  methods: {
-    play (video) {
-      this.playVideo(video, 'youtube')
-    }
   }
 }
 </script>
@@ -52,9 +47,5 @@ export default {
 .video-image {
   @extend .border-muted2;
   height: 60px;
-}
-.video-title {
-  @extend .p1-left;
-  @extend .lines2;
 }
 </style>
