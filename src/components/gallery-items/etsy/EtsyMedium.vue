@@ -53,8 +53,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/app";
-
 .shop-image {
   @extend .border-muted2;
   height: 60px;

@@ -1,16 +1,17 @@
 <template>
   <div v-show="!hide">
-    <div class="flex-row align-center m1-bottom">
-      <div class="m1-left">
+    <div class="flex-row align-center m1-bottom" @click="showGalleryItemDetail(item)">
+      <div class="flex-one m1-left">
         <h3 class="primary"><span class="muted2 uppercase font-2 border-right-muted3 p1-right m1-right">Posts</span>{{ site.title }}</h3>
       </div>
+      <div class="p1 muted3"><i class="fas fa-chevron-right"></i></div>
     </div>
 
     <div v-for="post in items" :key="post.date" class="item-row" @click="show(post)">
-      <div class="v-fill"><img :src="post.image" class="v-fill"></div>
+      <div class="v-fill m1-right"><img :src="post.image" class="v-fill"></div>
       <div v-if="!post.image" class="m1-right"><i class="fab fa-readme primary3 opacity60"></i></div>
       <div class="flex-one p1-right lines1">
-        <p>{{ htmlDecode(post.title) }}</p>
+        <p class="lines1">{{ htmlDecode(post.title) }}</p>
         <p class="muted2 font-2">{{ date(post) }}</p>
       </div>
     </div>
@@ -56,8 +57,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/app";
-
 .site-image {
   @extend .border-muted2;
   height: 60px;

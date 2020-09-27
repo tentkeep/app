@@ -16,6 +16,10 @@ Vue.mixin({
       gallery.toString = () => gallery.id
       this.$router.push({ name: 'gallery', params: { gallery } })
     },
+    showGalleryItemDetail (item) {
+      item.toString = () => item.id
+      this.$router.push({ name: 'ItemDetail', params: { item } })
+    },
     playAudio (item, type) {
       this.setCurrentAudio({ item, type })
     },

@@ -1,9 +1,13 @@
 <template>
   <div v-show="!hide">
-    <div class="p1-bottom m2-bottom">
-      <h2 class="primary bold"><i class="fas fa-rss music-icon" /> {{ artist.title }}</h2>
+    <div class="p1-bottom m2-bottom" @click="showGalleryItemDetail(item)">
+      <div class="flex-row align-center">
+        <h2 class="flex-one primary bold"><i class="fas fa-rss music-icon" /> {{ artist.title }}</h2>
+        <div class="p1 muted3"><i class="fas fa-chevron-right"></i></div>
+      </div>
       <div class="p1-top m3-h border-bottom-muted3"></div>
     </div>
+
     <div v-for="album in items" :key="album.id" class="album-row">
       <div class="flex-row m1-bottom">
         <div>
@@ -59,8 +63,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/app";
-
 .soft-gradient {
   background: radial-gradient(circle at top, var(--hi), var(--muted3), transparent),
   radial-gradient(ellipse at bottom, var(--hi), var(--hi), var(--muted3), transparent);

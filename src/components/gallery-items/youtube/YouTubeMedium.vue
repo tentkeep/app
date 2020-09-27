@@ -1,13 +1,14 @@
 <template>
   <div v-show="!hide">
-    <div class="flex-row align-center m1-bottom">
+    <div class="flex-row align-center m1-bottom" @click="showGalleryItemDetail(item)">
       <div>
         <img :src="channel.thumbnail.url" class="video-image" />
       </div>
-      <div class="m1-left">
+      <div class="flex-one m1-left">
         <h3 class="primary">{{ channel.title }}</h3>
         <p class="muted2 font-2">YouTube</p>
       </div>
+      <div class="p1 muted3"><i class="fas fa-chevron-right"></i></div>
     </div>
 
     <div v-for="video in items" :key="video.id" class="item-row flush-left" @click="play(video)">
@@ -48,8 +49,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/app";
-
 .video-image {
   @extend .border-muted2;
   height: 60px;

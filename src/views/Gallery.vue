@@ -39,12 +39,12 @@
         </div>
 
         <div v-for="item in items" :key="item.created_at" class="gallery-item">
-          <etsy v-if="item.item_type === 'etsy'" :item="item" :filter="query" />
+          <component :is="componentForItem(item)" :item="item" :filter="query" />
+          <!-- <etsy v-if="item.item_type === 'etsy'" :item="item" :filter="query" />
           <music v-if="item.item_type === 'music'" :item="item" :filter="query" />
           <podcast v-if="item.item_type === 'podcast'" :item="item" :filter="query" />
           <wordpress v-if="item.item_type === 'wordpress'" :item="item" :filter="query" />
-          <you-tube v-if="item.item_type === 'youtube'" :item="item" :filter="query" />
-          <!-- <component :is="componentForItem(item)" :galleryItem="item" /> -->
+          <you-tube v-if="item.item_type === 'youtube'" :item="item" :filter="query" /> -->
         </div>
 
         <!-- curator / owner section -->
@@ -64,11 +64,12 @@
 import GalleryImage from '@/components/GalleryImage'
 import Modal from '@/components/Modal'
 import GalleryItemAdd from '@/views/GalleryItemAdd'
-import Etsy from '@/components/gallery-items/Etsy'
-import Music from '@/components/gallery-items/Music'
-import Podcast from '@/components/gallery-items/Podcast'
-import Wordpress from '@/components/gallery-items/Wordpress'
-import YouTube from '@/components/gallery-items/YouTube'
+import EtsyMedium from '@/components/gallery-items/etsy/EtsyMedium.vue'
+import MusicMedium from '@/components/gallery-items/music/MusicMedium.vue'
+import PodcastMedium from '@/components/gallery-items/podcast/PodcastMedium.vue'
+import WordpressMedium from '@/components/gallery-items/wordpress/WordpressMedium.vue'
+import YouTubeMedium from '@/components/gallery-items/youtube/YouTubeMedium.vue'
+
 import { mapActions } from 'vuex'
 import api from '@/js/api'
 
@@ -88,7 +89,8 @@ export default {
       addingContent: false
     }
   },
-  components: { GalleryImage, Modal, GalleryItemAdd, Etsy, Music, Podcast, Wordpress, YouTube },
+  // components: { GalleryImage, Modal, GalleryItemAdd, Etsy, Music, Podcast, Wordpress, YouTube },
+  components: { GalleryImage, Modal, GalleryItemAdd },
   computed: {
     hasItems () {
       return !this.isLoadingGalleryItems && this.items && this.items.length > 0
@@ -116,8 +118,11 @@ export default {
     },
     componentForItem (item) {
       switch (item.item_type) {
-        case 'podcast':
-          return () => import('@/components/gallery-items/Podcast')
+        case 'etsy': return EtsyMedium
+        case 'music': return MusicMedium
+        case 'podcast': return PodcastMedium
+        case 'wordpress': return WordpressMedium
+        case 'youtube': return YouTubeMedium
         default:
           throw new Error('should be exhaustive')
       }

@@ -37,6 +37,12 @@ const routes = [
     name: 'gallery',
     props: true,
     component: () => import(/* webpackChunkName: "gallery" */ '../views/Gallery')
+  },
+  {
+    path: '/item/:item',
+    name: 'ItemDetail',
+    props: true,
+    component: () => import(/* webpackChunkName: "ItemDetail" */ '../views/GalleryItem')
   }
 ]
 
