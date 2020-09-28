@@ -22,9 +22,9 @@ actions.saveGallery = async ({ commit, state }, { title, image }) => {
   await api.saveGalleryImage(_token, gallery.id, image)
   return gallery
 }
-actions.saveGalleryItem = ({ state }, properties) => {
+actions.saveGalleryEntry = ({ state }, properties) => {
   return state.tokens
-    ? api.saveGalleryItem(token(state), properties)
+    ? api.saveGalleryEntry(token(state), properties)
     : Promise.reject(new Error('Unauthorized'))
 }
 actions.getGalleriesForUser = ({ state }) => {

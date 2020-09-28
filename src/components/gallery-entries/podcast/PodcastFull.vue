@@ -1,6 +1,6 @@
 <template>
   <div class="v-fill flex-column">
-    <item-titlebar @search="search" />
+    <entry-titlebar @search="search" />
 
     <div class="flex-row m1-bottom">
       <div>
@@ -15,19 +15,21 @@
 
     <p class="muted-color p1-left m1-bottom uppercase font-2">Episodes</p>
     <div class="flex-one p1-left p1-right p2-bottom scrolly">
-      <podcast-row v-for="entry in items" :key="entry.pubDate" :item="entry" />
+      <podcast-row v-for="item in items" :key="item.pubDate" :item="item" :identifier="identifier" />
     </div>
   </div>
 </template>
 
 <script>
-import ItemTitlebar from '@/components/gallery-items/ItemTitlebar'
-import PodcastRow from '@/components/gallery-items/podcast/PodcastRow'
+import EntryTitlebar from '@/components/gallery-entries/EntryTitlebar'
+import galleryEntryMixin from '@/components/gallery-entries/gallery-entry-mixin'
+import PodcastRow from '@/components/gallery-entries/podcast/PodcastRow'
 
 export default {
   name: 'PodcastFull',
-  props: ['item'],
-  components: { ItemTitlebar, PodcastRow },
+  props: ['entry'],
+  components: { EntryTitlebar, PodcastRow },
+  mixins: [galleryEntryMixin],
   data () {
     return {
       filter: null,
@@ -36,7 +38,7 @@ export default {
   },
   computed: {
     podcast () {
-      return this.item.details
+      return this.entry.details
     },
     items () {
       if (this.filter) {

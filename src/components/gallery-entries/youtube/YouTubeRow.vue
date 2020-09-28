@@ -8,10 +8,10 @@
 <script>
 export default {
   name: 'PodcastRow',
-  props: ['item'],
+  props: ['item', 'identifier'],
   methods: {
     play (video) {
-      this.playVideo(video, 'youtube')
+      this.playVideo(video, 'youtube', this.identifier)
     },
     date (item) {
       return new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' })

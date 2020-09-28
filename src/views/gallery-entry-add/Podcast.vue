@@ -1,6 +1,6 @@
 <template>
   <div class="p2">
-    <form @submit.prevent="saveItem" class="v-fill flex-column">
+    <form @submit.prevent="saveEntry" class="v-fill flex-column">
       <label for="feedUrl" class="primary font-2">*Podcast feed url:</label>
       <input
         name="feedUrl"
@@ -70,8 +70,8 @@ export default {
       this.feedUrl = podcast.feedUrl
       this.selectedPodcast = podcast
     },
-    saveItem () {
-      this.$emit('submit', { itemType: 'podcast', details: { feedUrl: this.feedUrl } })
+    saveEntry () {
+      this.$emit('submit', { entryType: 'podcast', details: { feedUrl: this.feedUrl } })
     }
   }
 }

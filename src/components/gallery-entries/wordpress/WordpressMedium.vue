@@ -1,6 +1,6 @@
 <template>
   <div v-show="!hide">
-    <div class="flex-row align-center m1-bottom" @click="showGalleryItemDetail(item)">
+    <div class="flex-row align-center m1-bottom" @click="showGalleryEntryDetail(item)">
       <div class="flex-one m1-left">
         <h3 class="primary"><span class="muted2 uppercase font-2 border-right-muted3 p1-right m1-right">Posts</span>{{ site.title }}</h3>
       </div>
@@ -21,10 +21,10 @@
 <script>
 export default {
   name: 'Wordpress',
-  props: ['item', 'filter'],
+  props: ['entry', 'filter'],
   computed: {
     site () {
-      return this.item.details
+      return this.entry.details
     },
     items () {
       if (this.filter) {

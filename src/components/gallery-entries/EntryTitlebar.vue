@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'ItemTitlebar',
+  name: 'EntryTitlebar',
   data () {
     return {
       isSearching: false,

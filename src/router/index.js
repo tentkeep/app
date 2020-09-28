@@ -40,9 +40,9 @@ const routes = [
   },
   {
     path: '/item/:item',
-    name: 'ItemDetail',
+    name: 'EntryDetail',
     props: true,
-    component: () => import(/* webpackChunkName: "ItemDetail" */ '../views/GalleryItem')
+    component: () => import(/* webpackChunkName: "EntryDetail" */ '../views/GalleryEntry')
   }
 ]
 

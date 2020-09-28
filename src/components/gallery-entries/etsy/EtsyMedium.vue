@@ -20,10 +20,10 @@
 <script>
 export default {
   name: 'YouTube',
-  props: ['item', 'filter'],
+  props: ['entry', 'filter'],
   computed: {
     shop () {
-      return this.item.details
+      return this.entry.details
     },
     items () {
       if (this.filter) {

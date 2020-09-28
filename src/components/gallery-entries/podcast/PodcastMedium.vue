@@ -1,6 +1,6 @@
 <template>
   <div v-show="!hide">
-    <div class="flex-row align-center m1-bottom" @click="showGalleryItemDetail(item)">
+    <div class="flex-row align-center m1-bottom" @click="showGalleryEntryDetail(item)">
       <div>
         <img :src="podcast.image" class="podcast-image" />
       </div>
@@ -8,20 +8,22 @@
       <div class="p1 muted3"><i class="fas fa-chevron-right"></i></div>
     </div>
 
-    <podcast-row v-for="episode in items" :key="episode.pubDate" :item="episode" />
+    <podcast-row v-for="episode in items" :key="episode.pubDate" :item="episode" :identifier="identifier" />
   </div>
 </template>
 
 <script>
-import PodcastRow from '@/components/gallery-items/podcast/PodcastRow'
+import PodcastRow from '@/components/gallery-entries/podcast/PodcastRow'
+import galleryEntryMixin from '@/components/gallery-entries/gallery-entry-mixin'
 
 export default {
   name: 'Podcast',
-  props: ['item', 'filter'],
+  props: ['entry', 'filter'],
   components: { PodcastRow },
+  mixins: [galleryEntryMixin],
   computed: {
     podcast () {
-      return this.item.details
+      return this.entry.details
     },
     items () {
       if (this.filter) {

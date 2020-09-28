@@ -22,7 +22,7 @@ export default {
   getGalleries: () => appApi(`${host}/galleries`),
   getGalleriesForUser: token => appApi(`${host}/galleries/me`, { headers: authHeaders(token) }),
   getGalleryImageUrl: galleryId => `${host}/galleries/${galleryId}/image`,
-  getGalleryItems: galleryId => appApi(`${host}/galleries/${galleryId}/items`),
+  getGalleryEntries: galleryId => appApi(`${host}/galleries/${galleryId}/entries`),
   getGalleryUserRole: (token, galleryId) => appApi(`${host}/galleries/${galleryId}/users/me`, {
     headers: authHeaders(token)
   }),
@@ -50,7 +50,7 @@ export default {
     })
       .then(nonOkStatusHandler)
   },
-  saveGalleryItem: (token, { galleryId, ...body }) => appApi(`${host}/galleries/${galleryId}/items`, {
+  saveGalleryEntry: (token, { galleryId, ...body }) => appApi(`${host}/galleries/${galleryId}/entries`, {
     method: 'post',
     headers: headersForPost(token),
     body

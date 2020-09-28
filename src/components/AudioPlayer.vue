@@ -34,7 +34,6 @@ export default {
       nowPlayingDuration: null,
       nowPlayingRemaining: null,
       progress: 0,
-      progressTime: '0:00',
       audio: null,
       isPlaying: false
     }
@@ -58,10 +57,14 @@ export default {
       }
     },
     pause () {
-      // const { item, type } = this.nowPlaying
-
+      if (this.nowPlaying) {
+        const { item, type, identifier } = this.nowPlaying
+        const { galleryId, galleryEntryId } = identifier
+        console.log(item, type, galleryId, galleryEntryId)
+        // api.saveUserItemActivity(galleryId, galleryEntryId, item.id)
       // save progress
-      // metrics for provider compensation
+      }
+
       if (this.player) {
         this.player.pause()
       }
@@ -83,7 +86,6 @@ export default {
     updateProgress (currentTime, duration) {
       const progress = currentTime / duration
       this.progress = Math.round(progress * 1000) / 10
-      this.progressTime = formatTime(currentTime)
       this.nowPlayingRemaining = `-${formatTime(duration - currentTime)}`
     },
     playUrl (url) {

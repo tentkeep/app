@@ -16,15 +16,15 @@ Vue.mixin({
       gallery.toString = () => gallery.id
       this.$router.push({ name: 'gallery', params: { gallery } })
     },
-    showGalleryItemDetail (item) {
-      item.toString = () => item.id
-      this.$router.push({ name: 'ItemDetail', params: { item } })
+    showGalleryEntryDetail (entry) {
+      entry.toString = () => entry.id
+      this.$router.push({ name: 'EntryDetail', params: { entry } })
     },
-    playAudio (item, type) {
-      this.setCurrentAudio({ item, type })
+    playAudio (item, type, identifier) {
+      this.setCurrentAudio({ item, type, identifier })
     },
-    playVideo (item, type) {
-      this.setCurrentVideo({ item, type })
+    playVideo (item, type, identifier) {
+      this.setCurrentVideo({ item, type, identifier })
     }
   }
 })

@@ -1,6 +1,6 @@
 <template>
   <div v-show="!hide">
-    <div class="flex-row align-center m1-bottom" @click="showGalleryItemDetail(item)">
+    <div class="flex-row align-center m1-bottom" @click="showGalleryEntryDetail(item)">
       <div>
         <img :src="channel.thumbnail.url" class="video-image" />
       </div>
@@ -11,20 +11,22 @@
       <div class="p1 muted3"><i class="fas fa-chevron-right"></i></div>
     </div>
 
-    <you-tube-row v-for="video in items" :key="video.id" :item="video" />
+    <you-tube-row v-for="video in items" :key="video.id" :item="video" :identifier="identifier" />
   </div>
 </template>
 
 <script>
-import YouTubeRow from '@/components/gallery-items/youtube/YouTubeRow'
+import YouTubeRow from '@/components/gallery-entries/youtube/YouTubeRow'
+import galleryEntryMixin from '@/components/gallery-entries/gallery-entry-mixin'
 
 export default {
   name: 'YouTube',
-  props: ['item', 'filter'],
+  props: ['entry', 'filter'],
   components: { YouTubeRow },
+  mixins: [galleryEntryMixin],
   computed: {
     channel () {
-      return this.item.details
+      return this.entry.details
     },
     items () {
       if (this.filter) {

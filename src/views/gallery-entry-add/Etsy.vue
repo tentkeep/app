@@ -1,6 +1,6 @@
 <template>
   <div class="p2">
-    <form @submit.prevent="saveItem" class="v-fill flex-column">
+    <form @submit.prevent="saveEntry" class="v-fill flex-column">
       <label for="shopName" class="primary font-2">*Etsy shop name:</label>
       <input
         name="shopName"
@@ -62,8 +62,8 @@ export default {
       this.shopId = shop.shop_id
       this.selectedshop = shop
     },
-    saveItem () {
-      this.$emit('submit', { itemType: 'etsy', details: { shopId: this.shopId } })
+    saveEntry () {
+      this.$emit('submit', { entryType: 'etsy', details: { shopId: this.shopId } })
     }
   }
 }

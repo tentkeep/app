@@ -31,20 +31,15 @@
           </transition>
         </div>
 
-        <div v-if="!hasItems" class="flex-column align-center">
+        <div v-if="!hasEntries" class="flex-column align-center">
           <p class="text-center p2 rounded primary">
             There is no content
             <br />in this gallery.
           </p>
         </div>
 
-        <div v-for="item in items" :key="item.created_at" class="gallery-item">
-          <component :is="componentForItem(item)" :item="item" :filter="query" />
-          <!-- <etsy v-if="item.item_type === 'etsy'" :item="item" :filter="query" />
-          <music v-if="item.item_type === 'music'" :item="item" :filter="query" />
-          <podcast v-if="item.item_type === 'podcast'" :item="item" :filter="query" />
-          <wordpress v-if="item.item_type === 'wordpress'" :item="item" :filter="query" />
-          <you-tube v-if="item.item_type === 'youtube'" :item="item" :filter="query" /> -->
+        <div v-for="entry in entries" :key="entry.created_at" class="gallery-entry">
+          <component :is="componentForEntry(entry)" :entry="entry" :filter="query" />
         </div>
 
         <!-- curator / owner section -->
@@ -54,7 +49,7 @@
       </div>
 
       <modal v-model="addingContent">
-        <gallery-item-add :gallery="Gallery" @done="galleryItemAddDone" />
+        <gallery-entry-add :gallery="Gallery" @done="galleryEntryAddDone" />
       </modal>
     </div>
   </div>
@@ -63,12 +58,12 @@
 <script>
 import GalleryImage from '@/components/GalleryImage'
 import Modal from '@/components/Modal'
-import GalleryItemAdd from '@/views/GalleryItemAdd'
-import EtsyMedium from '@/components/gallery-items/etsy/EtsyMedium.vue'
-import MusicMedium from '@/components/gallery-items/music/MusicMedium.vue'
-import PodcastMedium from '@/components/gallery-items/podcast/PodcastMedium.vue'
-import WordpressMedium from '@/components/gallery-items/wordpress/WordpressMedium.vue'
-import YouTubeMedium from '@/components/gallery-items/youtube/YouTubeMedium.vue'
+import GalleryEntryAdd from '@/views/GalleryEntryAdd'
+import EtsyMedium from '@/components/gallery-entries/etsy/EtsyMedium.vue'
+import MusicMedium from '@/components/gallery-entries/music/MusicMedium.vue'
+import PodcastMedium from '@/components/gallery-entries/podcast/PodcastMedium.vue'
+import WordpressMedium from '@/components/gallery-entries/wordpress/WordpressMedium.vue'
+import YouTubeMedium from '@/components/gallery-entries/youtube/YouTubeMedium.vue'
 
 import { mapActions } from 'vuex'
 import api from '@/js/api'
@@ -80,8 +75,8 @@ export default {
     return {
       Gallery: null,
       isLoadingGallery: true,
-      isLoadingGalleryItems: true,
-      items: [],
+      isLoadingGalleryEntries: true,
+      entries: [],
       query: null,
       userRole: null,
       isSearching: false,
@@ -89,11 +84,10 @@ export default {
       addingContent: false
     }
   },
-  // components: { GalleryImage, Modal, GalleryItemAdd, Etsy, Music, Podcast, Wordpress, YouTube },
-  components: { GalleryImage, Modal, GalleryItemAdd },
+  components: { GalleryImage, Modal, GalleryEntryAdd },
   computed: {
-    hasItems () {
-      return !this.isLoadingGalleryItems && this.items && this.items.length > 0
+    hasEntries () {
+      return !this.isLoadingGalleryEntries && this.entries && this.entries.length > 0
     },
     bannerImageStyles () {
       return {
@@ -110,14 +104,14 @@ export default {
   },
   methods: {
     ...mapActions(['getGalleryUserRole']),
-    getItems () {
-      api.getGalleryItems(this.Gallery.id).then((items) => {
-        this.isLoadingGalleryItems = false
-        this.items = items
+    getEntries () {
+      api.getGalleryEntries(this.Gallery.id).then((entries) => {
+        this.isLoadingGalleryEntries = false
+        this.entries = entries
       })
     },
-    componentForItem (item) {
-      switch (item.item_type) {
+    componentForEntry (entry) {
+      switch (entry.entry_type) {
         case 'etsy': return EtsyMedium
         case 'music': return MusicMedium
         case 'podcast': return PodcastMedium
@@ -143,10 +137,10 @@ export default {
       const ratio = scrollTop / image.offsetHeight
       this.scrollRatio = ratio
     },
-    galleryItemAddDone (item) {
+    galleryEntryAddDone (entry) {
       this.addingContent = false
-      if (item) {
-        this.getItems()
+      if (entry) {
+        this.getEntries()
       }
     },
     async ensureGalleryFetched () {
@@ -160,7 +154,7 @@ export default {
   async mounted () {
     this.Gallery = this.gallery // can't mutate props
     await this.ensureGalleryFetched()
-    this.getItems()
+    this.getEntries()
     this.getGalleryUserRole(this.Gallery.id).then((userRole) => {
       if (userRole.is_owner) {
         this.userRole = 'owner'
@@ -220,7 +214,7 @@ export default {
     height: 170px;
     background: white;
   }
-  .gallery-item {
+  .gallery-entry {
     // @extend .bg-hi;
   --hi80: rgb(var(--base-colorR), var(--base-colorG), var(--base-colorB), 0.8);
     background-color: var(--hi80);

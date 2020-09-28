@@ -1,6 +1,6 @@
 <template>
   <div class="p2">
-    <form @submit.prevent="saveItem" class="v-fill flex-column">
+    <form @submit.prevent="saveEntry" class="v-fill flex-column">
       <label for="artistName" class="primary font-2">*Artist name:</label>
       <input
         name="artistName"
@@ -73,8 +73,8 @@ export default {
       this.artistId = artist.id
       this.selectedArtist = artist
     },
-    saveItem () {
-      this.$emit('submit', { itemType: 'music', details: { artistId: this.artistId } })
+    saveEntry () {
+      this.$emit('submit', { entryType: 'music', details: { artistId: this.artistId } })
     }
   }
 }

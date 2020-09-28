@@ -1,6 +1,6 @@
 <template>
   <div class="p2">
-    <form @submit.prevent="saveItem" class="v-fill flex-column">
+    <form @submit.prevent="saveEntry" class="v-fill flex-column">
       <label for="host" class="primary font-2">*Worpress site address:</label>
       <input
         name="host"
@@ -24,8 +24,8 @@ export default {
     }
   },
   methods: {
-    saveItem () {
-      this.$emit('submit', { itemType: 'wordpress', details: { host: this.host } })
+    saveEntry () {
+      this.$emit('submit', { entryType: 'wordpress', details: { host: this.host } })
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="p2">
-    <form @submit.prevent="saveItem" class="v-fill flex-column">
+    <form @submit.prevent="saveEntry" class="v-fill flex-column">
       <label for="youtubeUsername" class="primary font-2">*YouTube channel username:</label>
       <input
         name="youtubeUsername"
@@ -24,8 +24,8 @@ export default {
     }
   },
   methods: {
-    saveItem () {
-      this.$emit('submit', { itemType: 'youtube', details: { channelUsername: this.youtubeUsername } })
+    saveEntry () {
+      this.$emit('submit', { entryType: 'youtube', details: { channelUsername: this.youtubeUsername } })
     }
   }
 }

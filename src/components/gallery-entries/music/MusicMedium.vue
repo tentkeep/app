@@ -1,6 +1,6 @@
 <template>
   <div v-show="!hide">
-    <div class="p1-bottom m2-bottom" @click="showGalleryItemDetail(item)">
+    <div class="p1-bottom m2-bottom" @click="showGalleryEntryDetail(item)">
       <div class="flex-row align-center">
         <h2 class="flex-one primary bold"><i class="fas fa-rss music-icon" /> {{ artist.title }}</h2>
         <div class="p1 muted3"><i class="fas fa-chevron-right"></i></div>
@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="track-region">
-        <div v-for="track in album.tracks" :key="track.id" class="item-row" @click="playAudio(track, 'music')">
+        <div v-for="track in album.tracks" :key="track.id" class="item-row" @click="playAudio(track, 'music', identifier)">
           <div class="m1-right"><i class="far fa-play-circle primary3 opacity60"></i></div>
           <p>{{ track.title }}</p>
         </div>
@@ -30,12 +30,15 @@
 </template>
 
 <script>
+import galleryEntryMixin from '@/components/gallery-entries/gallery-entry-mixin'
+
 export default {
   name: 'Music',
-  props: ['item', 'filter'],
+  props: ['entry', 'filter'],
+  mixins: [galleryEntryMixin],
   computed: {
     artist () {
-      return this.item.details
+      return this.entry.details
     },
     items () {
       if (this.filter) {
