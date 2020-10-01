@@ -15,7 +15,7 @@
           <img src="https://appleid.cdn-apple.com/appleid/button?height=50&width=300" alt="">
         </div>
 
-        <form action="http://localhost:3749/v1/auth/authorized" method="post">
+        <form v-if="isDev" action="http://localhost:3749/v1/auth/authorized" method="post">
           <input name="id_token" :value="jwt" />
           <button>Go</button>
         </form>
@@ -29,7 +29,12 @@ export default {
   name: 'SignIn',
   data () {
     return {
-      jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJpc3MiOiJ0ZXN0LmF1dGgifQ.DNRtLiGc3fJKZlXG9td97bVWdViFGkcrXkbdc0ZhKg4'
+      jwt: window.jwtDev
+    }
+  },
+  computed: {
+    isDev () {
+      return process.env.VUE_APP_IS_DEV
     }
   },
   methods: {
