@@ -2,38 +2,37 @@
   <div v-show="!hide">
     <div class="flex-row align-center m1-bottom">
       <div>
-        <img :src="shop.shopImage" class="shop-image" />
+        <img :src="entry.image" class="shop-image" />
       </div>
       <div class="m1-left">
-        <h3 class="primary">{{ shop.title }}</h3>
+        <h3 class="primary">{{ entry.title }}</h3>
         <p class="muted2 font-2">Etsy</p>
       </div>
     </div>
 
-    <div v-for="listing in items" :key="listing.id" class="listing-row" @click="goTo(listing)">
-      <div class="v-fill"><img :src="listing.images[0].url_170x135" class="v-fill"></div>
-      <p class="listing-title">{{ htmlDecode(listing.title) }}</p>
+    <div class="flex-row flex-wrap flex-center">
+      <div v-for="listing in items" :key="listing.id" class="listing" @click="goTo(listing)">
+        <div class="listing-image h-fill" :style="{ 'background-image': `url(${listing.image})`}"></div>
+        <p class="listing-title">{{ htmlDecode(listing.title) }}</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'YouTube',
+  name: 'EtsyMedium',
   props: ['entry', 'filter'],
   computed: {
-    shop () {
-      return this.entry.details
-    },
     items () {
       if (this.filter) {
         const l = s => s.toLowerCase()
         const filter = l(this.filter)
-        return this.shop.listings
+        return this.entry.items
           .filter(i => l(i.title).includes(filter) || l(i.description).includes(filter))
-          .slice(0, 3)
+          .slice(0, 4)
       }
-      return this.shop.listings.slice(0, 3)
+      return this.entry.items.slice(0, 4)
     },
     hide () {
       return this.filter && this.items.length === 0
@@ -57,31 +56,24 @@ export default {
   @extend .border-muted2;
   height: 60px;
 }
-.listing-row {
-  $row-height: 45px;
-  @extend .flex-row;
-  @extend .align-center;
-  @extend .border-bottom-muted3;
-  position: relative;
-  height: $row-height;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  overflow: hidden;
-  &:last-child {
-    border-bottom: none;
-  }
-  &::after {
-    content: 'hello';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(0deg, var(--hi), transparent);
-  }
-  .listing-title {
-    @extend .p1-left;
-    @extend .font-1;
-  }
+.listing {
+  @extend .m2-bottom;
+  width: 47%;
+  max-width: 300px;
+  padding: 4px;
+}
+.listing-image {
+  @extend .square;
+  @extend .shadow-primary3;
+  border-radius: 2px;
+  background-size: cover;
+  background-position: center;
+}
+.listing-title {
+  @extend .primary;
+  @extend .p1-left;
+  @extend .font-1;
+  @extend .text-center;
+  @extend .lines2;
 }
 </style>
