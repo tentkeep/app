@@ -4,11 +4,11 @@
 
     <div class="flex-row m1-bottom">
       <div>
-        <img :src="details.thumbnail.url" class="video-image" />
+        <img :src="entry.image" class="video-image" />
       </div>
       <div class="flex-one m1-left p1-right p1-top">
-        <h3 class="primary">{{ details.title }}</h3>
-        <p class="font-2" :class="{ lines2: !showMoreDescription }">{{ details.description }}</p>
+        <h3 class="primary">{{ entry.title }}</h3>
+        <p class="font-2" :class="{ lines2: !showMoreDescription }">{{ entry.description }}</p>
         <a class="pull-right primary2 font-2" @click="toggleMoreDescription">{{ showMoreDescription ? 'less' : 'more' }}</a>
       </div>
     </div>
@@ -37,18 +37,15 @@ export default {
     }
   },
   computed: {
-    details () {
-      return this.entry.details
-    },
     items () {
       if (this.filter) {
         const l = s => s.toLowerCase()
         const filter = l(this.filter)
-        return this.details.uploads.items
+        return this.entry.items
           .filter(i => l(i.title).includes(filter))
           .slice(0, 1000)
       }
-      return this.details.uploads.items
+      return this.entry.items
         .slice(0, 1000)
     }
   },

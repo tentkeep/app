@@ -11,6 +11,8 @@ export default {
   computed: {
     galleryEntryComponent () {
       switch (this.entry.entry_type) {
+        case 'etsy':
+          return () => import('@/components/gallery-entries/etsy/EtsyFull.vue')
         case 'podcast':
           return () => import('@/components/gallery-entries/podcast/PodcastFull.vue')
         case 'youtube':

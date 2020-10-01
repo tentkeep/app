@@ -1,19 +1,22 @@
 <template>
   <div v-show="!hide">
-    <div class="flex-row align-center m1-bottom" @click="showGalleryEntryDetail(entry)">
+    <entry-titlebar @search="search" />
+
+    <div class="flex-row align-center m1-bottom">
       <div>
         <img :src="entry.image" class="shop-image" />
       </div>
-      <div class="flex-one m1-left">
+      <div class="m1-left">
         <h3 class="primary">{{ entry.title }}</h3>
         <p class="muted2 font-2">Etsy</p>
       </div>
-      <div class="p1 muted3"><i class="fas fa-chevron-right"></i></div>
     </div>
 
     <div class="flex-row flex-wrap flex-center">
       <div v-for="listing in items" :key="listing.id" class="listing" @click="goTo(listing)">
-        <div class="flex-column align-center"><img class="listing-img" :src="listing.image" /></div>
+        <div class="image-wrap"><div class="flex-column align-center shadow-primary3 rounded noscroll">
+          <img class="listing-img" :src="listing.image" />
+        </div></div>
         <!-- <div class="listing-image h-fill" :style="{ 'background-image': `url(${listing.image})`}"></div> -->
         <p class="listing-title">{{ htmlDecode(listing.title) }}</p>
       </div>
@@ -22,9 +25,19 @@
 </template>
 
 <script>
+import EntryTitlebar from '@/components/gallery-entries/EntryTitlebar'
+import galleryEntryMixin from '@/components/gallery-entries/gallery-entry-mixin'
+
 export default {
   name: 'EtsyMedium',
-  props: ['entry', 'filter'],
+  data () {
+    return {
+      filter: null
+    }
+  },
+  props: ['entry'],
+  components: { EntryTitlebar },
+  mixins: [galleryEntryMixin],
   computed: {
     items () {
       if (this.filter) {
@@ -32,15 +45,17 @@ export default {
         const filter = l(this.filter)
         return this.entry.items
           .filter(i => l(i.title).includes(filter) || l(i.description).includes(filter))
-          .slice(0, 4)
       }
-      return this.entry.items.slice(0, 4)
+      return this.entry.items
     },
     hide () {
       return this.filter && this.items.length === 0
     }
   },
   methods: {
+    search (query) {
+      this.filter = query
+    },
     htmlDecode (text) {
       const div = document.createElement('div')
       div.innerHTML = text
@@ -69,8 +84,10 @@ export default {
 }
 .listing-img {
   @extend .shadow-primary3;
-  margin-bottom: 4px;
   height: 120px;
+}
+.image-wrap {
+  @extend .p1;
 }
 .listing-image {
   @extend .square;

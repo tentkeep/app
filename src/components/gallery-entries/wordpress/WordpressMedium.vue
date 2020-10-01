@@ -2,13 +2,13 @@
   <div v-show="!hide">
     <div class="flex-row align-center m1-bottom" @click="showGalleryEntryDetail(entry)">
       <div class="flex-one m1-left">
-        <h3 class="primary"><span class="muted2 uppercase font-2 border-right-muted3 p1-right m1-right">Posts</span>{{ site.title }}</h3>
+        <h3 class="primary"><span class="muted2 uppercase font-2 border-right-muted3 p1-right m1-right">Posts</span>{{ entry.title }}</h3>
       </div>
       <div class="p1 muted3"><i class="fas fa-chevron-right"></i></div>
     </div>
 
     <div v-for="post in items" :key="post.date" class="item-row" @click="show(post)">
-      <div class="v-fill m1-right"><img :src="post.image" class="v-fill"></div>
+      <div class="square v-fill m1-right"><img :src="post.image" class="v-fill square"></div>
       <div v-if="!post.image" class="m1-right"><i class="fab fa-readme primary3 opacity60"></i></div>
       <div class="flex-one p1-right lines1">
         <p class="lines1">{{ htmlDecode(post.title) }}</p>
@@ -23,18 +23,15 @@ export default {
   name: 'Wordpress',
   props: ['entry', 'filter'],
   computed: {
-    site () {
-      return this.entry.details
-    },
     items () {
       if (this.filter) {
         const l = s => s.toLowerCase()
         const filter = l(this.filter)
-        return this.site.items
+        return this.entry.items
           .filter(i => l(i.title).includes(filter) || l(i.description).includes(filter) || l(i.categories).includes(filter) || l(i.author).includes(filter))
           .slice(0, 3)
       }
-      return this.site.items.slice(0, 3)
+      return this.entry.items.slice(0, 3)
     },
     hide () {
       return this.filter && this.items.length === 0

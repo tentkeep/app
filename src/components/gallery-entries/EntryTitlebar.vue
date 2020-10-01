@@ -37,6 +37,7 @@ export default {
     clearSearch () {
       this.query = null
       this.$el.querySelector('input[name=query]').focus()
+      this.emitSearch()
     },
     emitSearch () {
       this.$emit('search', this.query)
