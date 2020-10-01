@@ -7,14 +7,14 @@
     </div>
 
     <div class="video-player">
-      <div v-if="youtubeVideoId" class="flex-column align-center">
-        <iframe
+      <div v-if="youtubeVideoId" id="youtube-player" class="flex-column align-center">
+        <!-- <iframe
           class="youtube-frame"
           :src="`https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&rel=0&playsinline=1`"
           frameborder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen>
-        </iframe>
+        </iframe> -->
       </div>
     </div>
   </div>
@@ -22,7 +22,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import youtube from '@/js/youtube-player'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'VideoPlayer',
@@ -32,6 +33,7 @@ export default {
       youtubeVideoId: null,
 
       player: null,
+      youtubePlayer: null,
       nowPlayingDuration: null,
       nowPlayingRemaining: null,
       progress: 0,
@@ -49,18 +51,34 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['saveUserItemActivity']),
     resume () {
       if (this.player) {
         this.player.play()
       }
     },
     pause () {
+      if (this.player) {
+        this.player.pause()
+      }
+    },
+    didPause () {
       // const { item, type } = this.nowPlaying
 
       // save progress
-      // metrics for provider compensation
-      if (this.player) {
-        this.player.pause()
+      console.log('pause time', this.youtubePlayer.getCurrentTime())
+      if (this.youtubePlayer) {
+        const { item, type, identifier } = this.nowPlaying
+        const { galleryId, galleryEntryId } = identifier
+        const currentTime = this.youtubePlayer.getCurrentTime()
+        const timeRemaining = this.youtubePlayer.getDuration() - currentTime
+        this.saveUserItemActivity({
+          galleryId,
+          galleryEntryId,
+          galleryEntryType: type,
+          galleryEntryItemId: item.id,
+          activity: { currentTime, isComplete: timeRemaining < 10 }
+        })
       }
     },
     beginPlaying (videoItem) {
@@ -71,8 +89,14 @@ export default {
         this.playYoutube(item.detail.videoId)
       }
     },
-    playYoutube (videoId) {
+    async playYoutube (videoId) {
       this.youtubeVideoId = videoId
+      if (!this.youtubePlayer) {
+        this.youtubePlayer = await youtube.getYouTubePlayer('youtube-player', videoId, { onPause: this.didPause })
+      } else {
+        const startTime = 0
+        this.youtubePlayer.loadVideoById(videoId, startTime, 'large')
+      }
     }
   }
 }
