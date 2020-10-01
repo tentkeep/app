@@ -4,7 +4,7 @@
     :key="gallery.id"
     class="item"
     @click="goToGallery(gallery)">
-      <gallery-image :galleryId="gallery.id" size="100%" class="shadow-primary2" />
+      <gallery-image :galleryId="gallery.id" size="100%" class="shadow-primary2 rounded" />
       <div class="description">
         <p class="">{{gallery.title}}</p>
       </div>
@@ -35,6 +35,7 @@ export default {
   .item {
     @extend .shadow-primary2;
     @extend .bg-hi;
+    @extend .rounded;
     padding: 5px;
     margin-bottom: 5px;
     .description {

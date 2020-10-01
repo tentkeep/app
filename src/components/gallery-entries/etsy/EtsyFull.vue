@@ -56,11 +56,6 @@ export default {
     search (query) {
       this.filter = query
     },
-    htmlDecode (text) {
-      const div = document.createElement('div')
-      div.innerHTML = text
-      return div.textContent
-    },
     goTo (listing) {
       window.open(listing.url)
     }

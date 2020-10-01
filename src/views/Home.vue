@@ -11,6 +11,11 @@
         <h3 class="m1-bottom">Explore</h3>
         <gallery-grid :galleries="exploreGalleries" />
       </div>
+
+      <div class="recently-added m2-top p1">
+        <h3 class="m1-bottom">New</h3>
+        <recently-added />
+      </div>
     </div>
 
     <div class="filter-menu">
@@ -26,6 +31,7 @@
 
 <script>
 import GalleryGrid from '@/components/GalleryGrid'
+import RecentlyAdded from '@/components/RecentlyAdded'
 import { mapGetters } from 'vuex'
 import api from '@/js/api'
 
@@ -42,7 +48,7 @@ export default {
   computed: {
     ...mapGetters(['isSignedIn'])
   },
-  components: { GalleryGrid },
+  components: { GalleryGrid, RecentlyAdded },
   methods: {
     async fetchGalleries () {
       const threshold = 15 * 60 * 1000

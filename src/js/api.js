@@ -20,6 +20,7 @@ export default {
   // Galleries
   getGallery: galleryId => appApi(`${host}/galleries/${galleryId}`),
   getGalleries: () => appApi(`${host}/galleries`),
+  getRecentlyAddedGalleryEntryItems: () => appApi(`${host}/gallery-entry-items/recent`),
   getGalleriesForUser: token => appApi(`${host}/me/galleries`, { headers: authHeaders(token) }),
   getGalleryImageUrl: galleryId => `${host}/galleries/${galleryId}/image`,
   getGalleryEntries: galleryId => appApi(`${host}/galleries/${galleryId}/entries`),

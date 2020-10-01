@@ -20,7 +20,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import musickit from '@/js/musickit'
 
-const formatTime = seconds => new Date(1000 * seconds)
+const formatTime = seconds => new Date(1000 * (seconds || 0))
   .toISOString()
   .substr(11, 8)
   .replace(/(00:0|00:)/, '')
@@ -85,6 +85,7 @@ export default {
         this.playUrl(item.url)
       }
       if (type === 'music') {
+        console.log(item)
         if (item.services.apple) {
           this.playMusickit(item)
         }
@@ -113,8 +114,9 @@ export default {
     },
     playMusickit (item) {
       this.player = musickit
+      // debugger
       musickit.playNow(item)
-      musickit.addEventListener('playbackDurationDidChange', event => (this.nowPlayingDuration = formatTime(event.duration)))
+      musickit.addEventListener('playbackDurationDidChange', event => console.log(event.duration) || (this.nowPlayingDuration = formatTime(event.duration)))
       musickit.addEventListener('playbackTimeDidChange', event => {
         this.updateProgress(event.currentPlaybackTime, event.currentPlaybackDuration)
       })

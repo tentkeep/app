@@ -1,6 +1,6 @@
 <template>
 <transition name="scale">
-  <div v-if="nowPlaying" class="video-player-container">
+  <div v-if="nowPlaying" class="video-player-container relative">
     <div class="video-control-bar">
       <div class="flex-one"></div>
       <button @click="nowPlaying = null"><i class="fas fa-times font1"></i></button>
@@ -8,13 +8,6 @@
 
     <div class="video-player">
       <div v-if="youtubeVideoId" id="youtube-player" class="flex-column align-center">
-        <!-- <iframe
-          class="youtube-frame"
-          :src="`https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&rel=0&playsinline=1`"
-          frameborder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe> -->
       </div>
     </div>
   </div>
@@ -106,7 +99,11 @@ export default {
 .scale-enter-active, .scale-leave-active { transition: transform .3s }
 .scale-leave-active { transform: scale(0); }
 .scale-enter, .scale-leave-to { transform: scale(0); }
+iframe, #youtube-player {
+  box-shadow: none !important;
+}
 </style>
+
 <style lang="scss" scoped>
 @import "../assets/app";
 
@@ -114,9 +111,10 @@ export default {
   @extend .z2;
 }
 .video-control-bar {
-  @extend .flex-row;
-  background-color: #111919;
-  padding: 0 16px;
+  @extend .absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, .5);
   button {
     padding: 8px;
     border: none;

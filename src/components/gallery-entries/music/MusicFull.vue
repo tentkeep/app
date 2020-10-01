@@ -1,14 +1,15 @@
 <template>
-  <div v-show="!hide">
-    <div class="p1-bottom m2-bottom" @click="showGalleryEntryDetail(entry)">
+  <div>
+    <entry-titlebar @search="search" />
+
+    <div class="p1 m2-bottom">
       <div class="flex-row align-center">
         <h2 class="flex-one primary bold"><i class="fas fa-rss music-icon" /> {{ entry.title }}</h2>
-        <div class="p1 muted3"><i class="fas fa-chevron-right"></i></div>
       </div>
       <div class="p1-top m3-h border-bottom-muted3"></div>
     </div>
 
-    <div v-for="album in items" :key="album.id" class="album-row">
+    <div v-for="album in items" :key="album.id" class="album-row p1">
       <div class="flex-row m1-bottom">
         <div>
           <img :src="album.image" class="album-image" />
@@ -30,12 +31,19 @@
 </template>
 
 <script>
+import EntryTitlebar from '@/components/gallery-entries/EntryTitlebar'
 import galleryEntryMixin from '@/components/gallery-entries/gallery-entry-mixin'
 
 export default {
-  name: 'Music',
-  props: ['entry', 'filter'],
+  name: 'MusicFull',
+  props: ['entry'],
+  data () {
+    return {
+      filter: null
+    }
+  },
   mixins: [galleryEntryMixin],
+  components: { EntryTitlebar },
   computed: {
     items () {
       if (this.filter) {
@@ -52,6 +60,9 @@ export default {
     }
   },
   methods: {
+    search (query) {
+      this.filter = query
+    },
     albumType (album) {
       return album.detail.isSingle ? 'Single' : 'Album'
     },
@@ -90,9 +101,5 @@ export default {
     @extend .border-muted2;
     width: 40px;
   }
-}
-.track-region {
-  @extend .scrolly;
-  max-height: 195px;
 }
 </style>

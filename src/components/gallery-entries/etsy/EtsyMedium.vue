@@ -12,7 +12,7 @@
     </div>
 
     <div class="flex-row flex-wrap flex-center">
-      <div v-for="listing in items" :key="listing.id" class="listing" @click="goTo(listing)">
+      <div v-for="listing in items" :key="listing.id" class="listing" @click="openWebPage(listing.url)">
         <div class="flex-column align-center"><img class="listing-img" :src="listing.image" /></div>
         <!-- <div class="listing-image h-fill" :style="{ 'background-image': `url(${listing.image})`}"></div> -->
         <p class="listing-title">{{ htmlDecode(listing.title) }}</p>
@@ -45,9 +45,6 @@ export default {
       const div = document.createElement('div')
       div.innerHTML = text
       return div.textContent
-    },
-    goTo (listing) {
-      window.open(listing.url)
     }
   }
 }

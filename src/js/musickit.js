@@ -31,17 +31,20 @@ const init = () => {
 init()
 
 const buildMediaItem = item => {
-  return new window.MusicKit.MediaItem({
-    id: item.id,
+  const id = item.services.apple.id
+  const details = {
+    id,
     kind: item.services.apple.kind,
     attributes: {
       previews: [{ url: item.preview }],
       url: item.services.apple.url
     },
     container: {
-      id: item.id
+      id
     }
-  })
+  }
+  console.log('FFF', details)
+  return new window.MusicKit.MediaItem(details)
 }
 
 export default {
