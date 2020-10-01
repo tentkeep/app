@@ -37,6 +37,11 @@ actions.getGalleryUserRole = ({ state }, galleryId) => {
     ? api.getGalleryUserRole(token(state), galleryId)
     : Promise.resolve({})
 }
+actions.saveUserItemActivity = ({ state }, itemActivity) => {
+  return state.tokens
+    ? api.saveUserItemActivity(token(state), itemActivity)
+    : Promise.resolve({})
+}
 
 export default new Vuex.Store({
   state,

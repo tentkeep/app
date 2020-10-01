@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import musickit from '@/js/musickit'
 
 const formatTime = seconds => new Date(1000 * seconds)
@@ -32,7 +32,9 @@ export default {
       player: null,
       nowPlaying: null,
       nowPlayingDuration: null,
+      nowPlayingRemainingDuration: null,
       nowPlayingRemaining: null,
+      currentTime: null,
       progress: 0,
       audio: null,
       isPlaying: false
@@ -51,6 +53,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['saveUserItemActivity']),
     resume () {
       if (this.player) {
         this.player.play()
@@ -60,9 +63,13 @@ export default {
       if (this.nowPlaying) {
         const { item, type, identifier } = this.nowPlaying
         const { galleryId, galleryEntryId } = identifier
-        console.log(item, type, galleryId, galleryEntryId)
-        // api.saveUserItemActivity(galleryId, galleryEntryId, item.id)
-      // save progress
+        this.saveUserItemActivity({
+          galleryId,
+          galleryEntryId,
+          galleryEntryType: type,
+          galleryEntryItemId: item.id,
+          activity: { currentTime: this.currentTime, isComplete: this.nowPlayingRemainingDuration < 5 }
+        })
       }
 
       if (this.player) {
@@ -75,7 +82,7 @@ export default {
       const { item, type } = this.nowPlaying
 
       if (type === 'podcast') {
-        this.playUrl(item.link.url)
+        this.playUrl(item.url)
       }
       if (type === 'music') {
         if (item.services.apple) {
@@ -84,9 +91,11 @@ export default {
       }
     },
     updateProgress (currentTime, duration) {
+      this.currentTime = currentTime
       const progress = currentTime / duration
       this.progress = Math.round(progress * 1000) / 10
       this.nowPlayingRemaining = `-${formatTime(duration - currentTime)}`
+      this.nowPlayingRemainingDuration = duration - currentTime
     },
     playUrl (url) {
       this.audio = new Audio(url)

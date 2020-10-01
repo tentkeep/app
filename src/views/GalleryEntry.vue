@@ -1,16 +1,16 @@
 <template>
   <div>
-    <component :is="galleryEntryComponent" :item="item" />
+    <component :is="galleryEntryComponent" :entry="entry" />
   </div>
 </template>
 
 <script>
 export default {
   name: 'EntryDetail',
-  props: ['item'],
+  props: ['entry'],
   computed: {
     galleryEntryComponent () {
-      switch (this.item.entry_type) {
+      switch (this.entry.entry_type) {
         case 'podcast':
           return () => import('@/components/gallery-entries/podcast/PodcastFull.vue')
         case 'youtube':

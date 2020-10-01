@@ -15,7 +15,7 @@
 
     <p class="muted-color p1-left m1-bottom uppercase font-2">Episodes</p>
     <div class="flex-one p1-left p1-right p2-bottom scrolly">
-      <podcast-row v-for="item in items" :key="item.pubDate" :item="item" :identifier="identifier" />
+      <podcast-row v-for="item in items" :key="item.id" :item="item" :identifier="identifier" />
     </div>
   </div>
 </template>

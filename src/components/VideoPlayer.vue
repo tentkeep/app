@@ -67,9 +67,8 @@ export default {
       this.nowPlaying = videoItem
       const { item, type } = this.nowPlaying
 
-      console.log(item)
       if (type === 'youtube') {
-        this.playYoutube(item.videoId)
+        this.playYoutube(item.detail.videoId)
       }
     },
     playYoutube (videoId) {

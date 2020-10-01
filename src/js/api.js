@@ -20,10 +20,10 @@ export default {
   // Galleries
   getGallery: galleryId => appApi(`${host}/galleries/${galleryId}`),
   getGalleries: () => appApi(`${host}/galleries`),
-  getGalleriesForUser: token => appApi(`${host}/galleries/me`, { headers: authHeaders(token) }),
+  getGalleriesForUser: token => appApi(`${host}/me/galleries`, { headers: authHeaders(token) }),
   getGalleryImageUrl: galleryId => `${host}/galleries/${galleryId}/image`,
   getGalleryEntries: galleryId => appApi(`${host}/galleries/${galleryId}/entries`),
-  getGalleryUserRole: (token, galleryId) => appApi(`${host}/galleries/${galleryId}/users/me`, {
+  getGalleryUserRole: (token, galleryId) => appApi(`${host}/me/galleries/${galleryId}`, {
     headers: authHeaders(token)
   }),
   saveGallery: (token, properties) => appApi(`${host}/galleries`, {
@@ -54,6 +54,11 @@ export default {
     method: 'post',
     headers: headersForPost(token),
     body
+  }),
+  saveUserItemActivity: (token, itemActivity) => appApi(`${host}/me/activity/item`, {
+    method: 'post',
+    headers: headersForPost(token),
+    body: itemActivity
   }),
   searchEtsyShops: (query) => appApi(`${host}/proxy/etsy/shops?q=${query}`),
   searchMusicArtists: (query) => appApi(`${host}/proxy/music/artists?q=${query}`),

@@ -13,7 +13,7 @@ export default {
   props: ['item', 'identifier'],
   methods: {
     date (item) {
-      return new Date(item.pubDate)
+      return new Date(item.date)
         .toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' })
     }
   }

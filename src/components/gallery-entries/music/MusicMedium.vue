@@ -1,6 +1,6 @@
 <template>
   <div v-show="!hide">
-    <div class="p1-bottom m2-bottom" @click="showGalleryEntryDetail(item)">
+    <div class="p1-bottom m2-bottom" @click="showGalleryEntryDetail(entry)">
       <div class="flex-row align-center">
         <h2 class="flex-one primary bold"><i class="fas fa-rss music-icon" /> {{ artist.title }}</h2>
         <div class="p1 muted3"><i class="fas fa-chevron-right"></i></div>

@@ -1,7 +1,10 @@
 <template>
-  <div class="item-row flush-left" @click="play(item)">
-    <div class="v-fill"><img :src="item.thumbnail" class="v-fill"></div>
-    <p class="video-title">{{ item.title }}</p>
+  <div class="item-row flush-left youtube-row" @click="play">
+    <div class="v-fill"><img :src="item.image" class="v-fill"></div>
+    <div class="flex-one p1-left">
+      <p class="lines2">{{ item.title }}</p>
+      <p class="uppercase muted2 font-3">{{date}}</p>
+    </div>
   </div>
 </template>
 
@@ -9,20 +12,25 @@
 export default {
   name: 'PodcastRow',
   props: ['item', 'identifier'],
+  computed: {
+    date () {
+      return new Date(this.item.date)
+        .toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' })
+    }
+  },
   methods: {
-    play (video) {
-      this.playVideo(video, 'youtube', this.identifier)
-    },
-    date (item) {
-      return new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric', day: 'numeric' })
+    play () {
+      this.playVideo(this.item, 'youtube', this.identifier)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.youtube-row {
+  height: 66px !important;
+}
 .video-title {
-  @extend .p1-left;
   @extend .lines2;
 }
 </style>
