@@ -4,7 +4,7 @@
     :key="gallery.id"
     class="item"
     @click="goToGallery(gallery)">
-      <gallery-image :galleryId="gallery.id" size="100%" class="shadow-primary2 rounded" />
+      <gallery-image :galleryId="gallery.id" size="100%" class="gallery-image" />
       <div class="description">
         <p class="">{{gallery.title}}</p>
       </div>
@@ -31,17 +31,24 @@ export default {
 .gallery-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 4px;
+  gap: 8px;
+  max-width: 600px;
   .item {
     @extend .shadow-primary2;
     @extend .bg-hi;
     @extend .rounded;
-    padding: 5px;
-    margin-bottom: 5px;
+    @extend .flex-column;
+    .gallery-image {
+      border-radius: 3px;
+      @extend .shadow-primary3;
+    }
     .description {
       @extend .flex-one;
-      @extend .font-2;
+      @extend .flex-column;
+      @extend .align-center;
+      @extend .flex-center;
       @extend .text-center;
+      @extend .font-2;
       padding: 2px;
     }
   }

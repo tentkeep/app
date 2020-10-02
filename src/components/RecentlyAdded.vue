@@ -88,7 +88,7 @@ export default {
   }
   .item-title {
     @extend .font-1;
-    @extend .lines3;
+    @extend .lines2;
   }
 }
 </style>

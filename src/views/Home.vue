@@ -18,14 +18,14 @@
       </div>
     </div>
 
-    <div class="filter-menu">
+    <!-- <div class="filter-menu">
       <div v-for="f in filters"
         :key="f"
         :class="{ active: f === filter }"
         @click="setFilter(f)">
         <i :class="`fas fa-${f}`"></i>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

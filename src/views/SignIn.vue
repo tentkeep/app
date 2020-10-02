@@ -15,7 +15,7 @@
           <img src="https://appleid.cdn-apple.com/appleid/button?height=50&width=300" alt="">
         </div>
 
-        <form v-if="isDev" action="http://localhost:3749/v1/auth/authorized" method="post">
+        <form v-show="isDev" class="beb" action="https://api.tentkeep.com/v1/auth/authorized" method="post">
           <input name="id_token" :value="jwt" />
           <button>Go</button>
         </form>
@@ -39,13 +39,8 @@ export default {
   },
   methods: {
     signInWithApple () {
-      window.location = 'http://localhost:3749/v1/auth/authorize/apple'
-    },
-    testSignIn () {
-
+      window.location = `${process.env.VUE_APP_API_URL}/auth/authorize/apple`
     }
-  },
-  mounted () {
   }
 }
 </script>
