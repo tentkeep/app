@@ -71,7 +71,7 @@ export default {
   @extend .shadow-primary2;
   @extend .noscroll;
   @extend .m1-right;
-  border-radius: 4px;
+  border-radius: 1px;
   .item-image {
     @extend .border-right-muted2;
     background-size: cover;

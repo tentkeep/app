@@ -4,7 +4,7 @@
     :key="gallery.id"
     class="item"
     @click="goToGallery(gallery)">
-      <gallery-image :galleryId="gallery.id" size="100%" class="gallery-image" />
+      <gallery-image :galleryId="gallery.id" size="100%" :tinyImage="gallery.tiny_image" class="gallery-image" />
       <div class="description">
         <p class="">{{gallery.title}}</p>
       </div>

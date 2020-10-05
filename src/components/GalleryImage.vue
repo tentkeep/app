@@ -9,11 +9,23 @@ import api from '@/js/api'
 
 export default {
   name: 'GalleryImage',
-  props: ['galleryId', 'size', 'maxSize'],
+  props: ['galleryId', 'tinyImage', 'size', 'maxSize'],
+  data () {
+    return {
+      fullImageUrl: null
+    }
+  },
   computed: {
     imageUrl () {
-      return api.getGalleryImageUrl(this.galleryId)
+      return this.fullImageUrl || this.tinyImage
     }
+  },
+  async mounted () {
+    var image = new Image()
+    image.onload = () => {
+      this.fullImageUrl = image.src
+    }
+    image.src = await api.getGalleryImageUrl(this.galleryId)
   }
 }
 </script>

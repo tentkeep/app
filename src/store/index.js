@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import storeGen from 'vuex-store-gen'
 import api from '../js/api'
+import images from '@/js/images'
 
 Vue.use(Vuex)
 
@@ -18,8 +19,10 @@ getters.isSignedIn = (state) => !!state.tokens
 
 actions.saveGallery = async ({ commit, state }, { title, image }) => {
   const _token = token(state)
-  const gallery = await api.saveGallery(_token, { title })
-  await api.saveGalleryImage(_token, gallery.id, image)
+  const tinyImage = await images.resizeImage(image, { maxSize: 10, outputType: 'dataURL' })
+  const gallery = await api.saveGallery(_token, { title, tiny_image: tinyImage })
+  const normalizedImage = await images.resizeImage(image, { maxSize: 900 })
+  await api.saveGalleryImage(_token, gallery.id, normalizedImage)
   return gallery
 }
 actions.saveGalleryEntry = ({ state }, properties) => {

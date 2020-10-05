@@ -15,7 +15,7 @@
           <img src="https://appleid.cdn-apple.com/appleid/button?height=50&width=300" alt="">
         </div>
 
-        <form v-show="isDev" class="beb" action="https://api.tentkeep.com/v1/auth/authorized" method="post">
+        <form v-show="isDev" class="beb" :action="devAuthUrl" method="post">
           <input name="id_token" :value="jwt" />
           <button>Go</button>
         </form>
@@ -35,6 +35,9 @@ export default {
   computed: {
     isDev () {
       return process.env.VUE_APP_IS_DEV
+    },
+    devAuthUrl () {
+      return `${process.env.VUE_APP_API_URL}/auth/authorized`
     }
   },
   methods: {

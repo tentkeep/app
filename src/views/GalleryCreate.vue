@@ -82,6 +82,7 @@ export default {
         })
         .catch(e => {
           this.loading = false
+          console.error(e)
           this.alert(e.message)
         })
     },
