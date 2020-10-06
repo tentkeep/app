@@ -1,6 +1,8 @@
 <template>
   <div class="v-fill flex-column">
-    <entry-titlebar @search="search" />
+    <div class="p1">
+      <entry-titlebar class="rounded" @search="search" />
+    </div>
 
     <div class="flex-row m1-bottom">
       <div>

@@ -1,19 +1,30 @@
 <template>
   <div class="home v-fill flex-column">
     <div class="flex-one scrolly">
-      <div id="titlebar" class="p2 p0-bottom flex-row align-center m2-bottom">
-        <h1 class="flex-one primary">Home</h1>
+      <div id="titlebar" class="p2 p0-bottom flex-row align-center m1-bottom">
+        <h2 class="flex-one primary">Explore</h2>
         <p v-if="isSignedIn" @click="$router.push('/mine')"><i class="far fa-user"></i></p>
         <button v-if="!isSignedIn" @click="$router.push({ name: 'SignIn' })" class="button-alt">Sign in</button>
       </div>
 
-      <div class="explore m2-top p1">
-        <h3 class="m1-bottom">Explore</h3>
+      <div class="explore p1">
         <gallery-grid :galleries="exploreGalleries" />
       </div>
 
-      <div class="recently-added m2-top p1">
-        <h3 class="m1-bottom">New</h3>
+      <div class="p1-left p1-top">
+        <h3 class="primary m1-bottom">Trending</h3>
+      </div>
+      <div class="flex-row flex-wrap flex-center p1 p0-top">
+        <p v-for="word in ['COVID', 'love', 'masks', 'theology', 'justice', 'racism', 'hate', 'gospel', 'fear', 'anxiety']"
+        :key="word"
+        class="bg-secondary hi p1 rounded m1-right m1-bottom shadow-primary2"
+        @click="alert('Not implemented. This should trigger a search of content using the word: ' + word)">
+          {{word}}
+        </p>
+      </div>
+
+      <div class="recently-added m1-top p1">
+        <h3 class="primary m1-bottom">New</h3>
         <recently-added />
       </div>
     </div>

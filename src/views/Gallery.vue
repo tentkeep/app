@@ -31,7 +31,7 @@
           </transition>
         </div>
 
-        <div v-if="!hasEntries" class="flex-column align-center">
+        <div v-if="!isLoadingGalleryEntries && !hasEntries" class="flex-column align-center">
           <p class="text-center p2 rounded primary">
             There is no content
             <br />in this gallery.
@@ -87,7 +87,7 @@ export default {
   components: { GalleryImage, Modal, GalleryEntryAdd },
   computed: {
     hasEntries () {
-      return !this.isLoadingGalleryEntries && this.entries && this.entries.length > 0
+      return this.entries && this.entries.length > 0
     },
     bannerImageStyles () {
       return {
