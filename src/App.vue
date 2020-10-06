@@ -20,7 +20,13 @@ export default {
 @import "assets/variables.css";
 </style>
 
-<style  lang="scss">
+<style lang="scss">
 @import "./assets/app";
 @import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
+#app {
+  @extend .shadow-primary;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
 </style>

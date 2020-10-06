@@ -56,10 +56,6 @@ export default {
       }
     },
     didPause () {
-      // const { item, type } = this.nowPlaying
-
-      // save progress
-      console.log('pause time', this.youtubePlayer.getCurrentTime())
       if (this.youtubePlayer) {
         const { item, type, identifier } = this.nowPlaying
         const { galleryId, galleryEntryId } = identifier

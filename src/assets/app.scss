@@ -96,6 +96,9 @@ a {
 
 // SHOULD BECOME PART OF /tentkeep/sass
 
+body {
+  background: var(--bg-gradient-primary);
+}
 #app {
   background: var(--bg-gradient);
 }
