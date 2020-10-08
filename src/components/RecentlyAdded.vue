@@ -1,18 +1,71 @@
 <template>
-  <div class="recently-added h-fill scrollx">
-    <div class="recently-added-flow">
-      <div v-for="item in items" :key="item.id" class="recently-added-item-wrapper" @click="activate(item)">
-        <div class="recently-added-item v-fill">
-          <div class="item-image" :style="{ 'background-image': `url(${item.image || item.gallery_entry_image})` }" />
-          <div class="flex-one p1 noscroll">
-            <p class="item-info"><i :class="typeLabel(item)" /> {{ item.gallery_entry_title }}</p>
-            <p class="item-title">{{ htmlDecode(item.title) }}</p>
+  <div class="recent-items">
+    <!-- VIDEO -->
+    <p class="primary uppercase bold font-1 m1-bottom">Watch</p>
+    <div class="recently-added h-fill scrollx">
+      <div class="recently-added-flow">
+        <div v-for="item in items.video" :key="item.id" class="recently-added-item-wrapper" @click="activate(item)">
+          <div class="recently-added-item v-fill">
+            <div class="item-image" :style="{ 'background-image': `url(${item.image || item.gallery_entry_image})` }" />
+            <div class="flex-one p1 noscroll">
+              <p class="item-info"><i :class="typeLabel(item)" /> {{ item.gallery_entry_title }}</p>
+              <p class="item-title">{{ htmlDecode(item.title) }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PODCAST -->
+    <p class="primary uppercase bold font-1 m1-top m1-bottom">Podcasts</p>
+    <div class="recently-added h-fill scrollx">
+      <div class="recently-added-flow">
+        <div v-for="item in items.podcast" :key="item.id" class="recently-added-item-wrapper" @click="activate(item)">
+          <div class="recently-added-item v-fill">
+            <div class="item-image" :style="{ 'background-image': `url(${item.image || item.gallery_entry_image})` }" />
+            <div class="flex-one p1 noscroll">
+              <p class="item-info"><i :class="typeLabel(item)" /> {{ item.gallery_entry_title }}</p>
+              <p class="item-title">{{ htmlDecode(item.title) }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MUSIC -->
+    <p class="primary uppercase bold font-1 m1-top m1-bottom">Music</p>
+    <div class="recently-added h-fill scrollx">
+      <div class="recently-added-flow">
+        <div v-for="item in items.music" :key="item.id" class="recently-added-item-wrapper" @click="activate(item)">
+          <div class="recently-added-item v-fill">
+            <div class="item-image" :style="{ 'background-image': `url(${item.image || item.gallery_entry_image})` }" />
+            <div class="flex-one p1 noscroll">
+              <p class="item-info"><i :class="typeLabel(item)" /> {{ item.gallery_entry_title }}</p>
+              <p class="item-title">{{ htmlDecode(item.title) }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHOP -->
+    <p class="primary uppercase bold font-1 m1-top m1-bottom">Shop</p>
+    <div class="recently-added h-fill scrollx">
+      <div class="recently-added-flow">
+        <div v-for="item in items.shop" :key="item.id" class="recently-added-item-wrapper" @click="activate(item)">
+          <div class="recently-added-item v-fill">
+            <div class="item-image" :style="{ 'background-image': `url(${item.image || item.gallery_entry_image})` }" />
+            <div class="flex-one p1 noscroll">
+              <p class="item-info"><i :class="typeLabel(item)" /> {{ item.gallery_entry_title }}</p>
+              <p class="item-title">{{ htmlDecode(item.title) }}</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 <script>
 import api from '@/js/api'
 
@@ -20,7 +73,7 @@ export default {
   name: 'RecentlyAdded',
   data () {
     return {
-      items: []
+      items: {}
     }
   },
   methods: {
@@ -49,7 +102,16 @@ export default {
   },
   mounted () {
     api.getRecentlyAddedGalleryEntryItems()
-      .then(items => { this.items = items })
+      .then(items => {
+        items.forEach(item => {
+          if (!this.items[item.generic_type]) {
+            this.items[item.generic_type] = [item]
+          } else {
+            this.items[item.generic_type].push(item)
+          }
+        })
+        this.items = { ...this.items }
+      })
   }
 }
 </script>

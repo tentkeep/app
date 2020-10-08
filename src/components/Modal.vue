@@ -27,8 +27,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/app";
-
 .modal {
   @extend .cover;
   @extend .fixed;

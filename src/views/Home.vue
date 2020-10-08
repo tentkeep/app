@@ -11,18 +11,6 @@
         <gallery-grid :galleries="exploreGalleries" />
       </div>
 
-      <div class="p1-left p1-top">
-        <h3 class="primary m1-bottom">Trending</h3>
-      </div>
-      <div class="flex-row flex-wrap flex-center p1 p0-top">
-        <p v-for="word in ['COVID', 'love', 'masks', 'theology', 'justice', 'racism', 'hate', 'gospel', 'fear', 'anxiety']"
-        :key="word"
-        class="bg-secondary hi p1 rounded m1-right m1-bottom shadow-primary2"
-        @click="alert('Not implemented. This should trigger a search of content using the word: ' + word)">
-          {{word}}
-        </p>
-      </div>
-
       <div class="recently-added m1-top p1">
         <h3 class="primary m1-bottom">New</h3>
         <recently-added />
@@ -52,6 +40,7 @@ export default {
     return {
       lastFetch: null,
       exploreGalleries: [],
+      trending: [],
       filters: ['music', 'video', 'podcast', 'book', 'shopping-cart', 'palette'],
       filter: null
     }
@@ -68,6 +57,10 @@ export default {
         this.lastFetch = new Date()
       }
     },
+    fetchTrends () {
+      api.getTrendingTopics()
+        .then(t => { this.trending = t })
+    },
     galleryImageUrl (galleryId) {
       return api.getGalleryImageUrl(galleryId)
     },
@@ -77,6 +70,7 @@ export default {
   },
   mounted () {
     this.fetchGalleries()
+    this.fetchTrends()
   }
 }
 </script>
@@ -137,5 +131,8 @@ export default {
       @extend .border-right-muted2;
     }
   }
+}
+.trending-topic {
+  background: var(--bg-gradient-primary);
 }
 </style>
