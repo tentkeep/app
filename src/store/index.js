@@ -25,6 +25,10 @@ actions.saveGallery = async ({ commit, state }, { title, image }) => {
   await api.saveGalleryImage(_token, gallery.id, normalizedImage)
   return gallery
 }
+actions.deleteGallery = ({ state }, galleryId) => {
+  const _token = token(state)
+  return api.deleteGallery(_token, galleryId)
+}
 actions.saveGalleryEntry = ({ state }, properties) => {
   return state.tokens
     ? api.saveGalleryEntry(token(state), properties)

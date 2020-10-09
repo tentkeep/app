@@ -14,22 +14,7 @@
       </div>
 
       <div class="relative z1 p2-bottom">
-        <div class="gallery-titlebar">
-          <div class="flex-row p1">
-            <div class="button-space"></div>
-            <p class="flex-one text-center primary bold font2">{{ Gallery.title }}</p>
-
-            <div class="button-space flex-bottom">
-              <button v-if="!isSearching" class="button-icon" @click="startSearch"><i class="fas fa-search" /></button>
-            </div>
-          </div>
-          <transition name="fade-in">
-            <div v-if="isSearching" class="search flex-row">
-              <input name="query" class="search-input" type="text" v-model="query" placeholder="search" />
-              <button class="search-close" @click="clearSearch"><i class="fas fa-times" /></button>
-            </div>
-          </transition>
-        </div>
+        <gallery-titlebar :title="Gallery.title" v-model="query" />
 
         <div v-if="!isLoadingGalleryEntries && !hasEntries" class="flex-column align-center">
           <p class="text-center p2 rounded primary">
@@ -45,11 +30,26 @@
         <!-- curator / owner section -->
         <div v-if="canAddContent" class="flex-column align-center m2 p2-top border-top-primary">
           <button class="button" @click="addingContent = true">Add content</button>
+          <hr class="h-fill opacity30">
+          <button class="button bg-warning" @click="confirmDeletion"><i class="fas fa-trash-alt" /> Delete</button>
         </div>
       </div>
 
       <modal v-model="addingContent">
         <gallery-entry-add :gallery="Gallery" @done="galleryEntryAddDone" />
+      </modal>
+
+      <modal v-model="showDeleteConfirmation">
+        <div class="bg-hi p3 rounded">
+          <h2 class="bold text-center warning">Caution!</h2>
+          <p class="text-center line180">
+            Are you sure you want to delete <br> the <span class="bold primary">{{ Gallery.title }}</span> gallery <br> and all of it's content?
+          </p>
+          <div class="flex-row flex-center m4-top">
+            <button class="button bg-warning m2-right" @click="deleteGalleryConfirmed">Delete</button>
+            <button class="button" @click="showDeleteConfirmation = false">Cancel</button>
+          </div>
+        </div>
       </modal>
     </div>
   </div>
@@ -57,6 +57,7 @@
 
 <script>
 import GalleryImage from '@/components/GalleryImage'
+import GalleryTitlebar from '@/components/galleries/GalleryTitlebar'
 import Modal from '@/components/Modal'
 import GalleryEntryAdd from '@/views/GalleryEntryAdd'
 import EtsyMedium from '@/components/gallery-entries/etsy/EtsyMedium.vue'
@@ -79,12 +80,12 @@ export default {
       entries: [],
       query: null,
       userRole: null,
-      isSearching: false,
       scrollRatio: 0,
-      addingContent: false
+      addingContent: false,
+      showDeleteConfirmation: false
     }
   },
-  components: { GalleryImage, Modal, GalleryEntryAdd },
+  components: { GalleryImage, GalleryTitlebar, Modal, GalleryEntryAdd },
   computed: {
     hasEntries () {
       return this.entries && this.entries.length > 0
@@ -103,7 +104,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getGalleryUserRole']),
+    ...mapActions(['getGalleryUserRole', 'deleteGallery']),
     getEntries () {
       api.getGalleryEntries(this.Gallery.id).then((entries) => {
         this.isLoadingGalleryEntries = false
@@ -121,16 +122,6 @@ export default {
           throw new Error('should be exhaustive')
       }
     },
-    startSearch () {
-      this.isSearching = true
-      this.$nextTick(() => {
-        this.$el.querySelector('input[name=query]').focus()
-      })
-    },
-    clearSearch () {
-      this.query = null
-      this.$el.querySelector('input[name=query]').focus()
-    },
     onScroll (event) {
       const image = this.$el.querySelector('.banner-image')
       const scrollTop = event.target.scrollTop
@@ -142,6 +133,16 @@ export default {
       if (entry) {
         this.getEntries()
       }
+    },
+    confirmDeletion () {
+      this.showDeleteConfirmation = true
+    },
+    deleteGalleryConfirmed () {
+      this.deleteGallery(this.Gallery.id)
+        .then(_ => {
+          this.$router.replace({ name: 'Home' })
+        })
+        .catch(e => { this.alert(e.message) })
     },
     async ensureGalleryFetched () {
       if (typeof this.Gallery === 'string') {
@@ -167,8 +168,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/app";
-
 .gallery {
   @extend .relative;
   overflow-x: hidden;
@@ -195,15 +194,6 @@ export default {
     @extend .m2-top;
     @extend .m4-bottom;
   }
-  .gallery-titlebar {
-    @extend .bg-hi;
-    @extend .m2-bottom;
-    @extend .shadow-primary3;
-    .button-space {
-      @extend .flex-row;
-      width: 60px;
-    }
-  }
   .image-backing {
     @extend .absolute;
     @extend .shadow-primary2;
@@ -224,30 +214,6 @@ export default {
     @extend .rounded;
     @extend .m1;
     @extend .noscroll;
-  }
-}
-.search {
-  @extend .p2-left;
-  @extend .p2-right;
-  @extend .p1-bottom;
-  .search-input {
-    @extend .input;
-    @extend .z1;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-radius: 20px;
-  }
-  .search-close {
-    @extend .bg-muted3;
-    @extend .hi;
-    @extend .border-muted;
-    outline: none;
-    text-shadow: 0 0 5px var(--muted);
-    padding-left: 50px;
-    padding-right: 10px;
-    margin-left: -40px;
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
   }
 }
 </style>

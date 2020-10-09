@@ -8,6 +8,8 @@
 // SHOULD BECOME PART OF /tentkeep/sass
 .hi { color: var(--hi); }
 .bg-hi { background-color: var(--hi); }
+.warning { color: #ed0000; }
+.bg-warning { background-color: #ed0000; }
 .border-hi { border: solid 1px var(--hi); }
 .shadow-primary { box-shadow: 1px 1px 3px var(--primary); }
 .shadow-primary2 { box-shadow: 1px 1px 3px var(--primary2); }

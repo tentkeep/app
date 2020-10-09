@@ -33,6 +33,10 @@ export default {
     headers: headersForPost(token),
     body: properties
   }),
+  deleteGallery: (token, galleryId) => appApi(`${host}/galleries/${galleryId}`, {
+    method: 'delete',
+    headers: headersForPost(token)
+  }),
   saveGalleryImage: async (token, galleryId, image) => {
     const body = {
       galleryId: galleryId,
