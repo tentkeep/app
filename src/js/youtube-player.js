@@ -29,6 +29,10 @@ const getYouTubePlayer = async (domId, videoId, events) => {
     height: `${window.innerHeight / 4}px`,
     width: '100%',
     videoId: videoId,
+    playerVars: {
+      autoplay: 1,
+      playsinline: 1
+    },
     events: {
       onReady: onPlayerReady,
       onStateChange: (event) => {
