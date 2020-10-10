@@ -12,7 +12,6 @@
       </div>
 
       <div class="recently-added m1-top p1">
-        <h3 class="primary m1-bottom">New</h3>
         <recently-added />
       </div>
     </div>
