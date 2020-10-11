@@ -5,10 +5,10 @@
     <div class="recently-added h-fill scrollx">
       <div class="recently-added-flow">
         <div v-for="item in items.video" :key="item.id" class="recently-added-item-wrapper" @click="activate(item)">
-          <div class="recently-added-item v-fill">
-            <div class="item-image" :style="{ 'background-image': `url(${item.image || item.gallery_entry_image})` }" />
-            <div class="flex-one p1 noscroll">
-              <p class="item-info"><i :class="typeLabel(item)" /> {{ item.gallery_entry_title }}</p>
+          <div class="video">
+            <div class="item-image h-fill" :style="{ 'background-image': `url(${item.image || item.gallery_entry_image})` }" />
+            <div class="p1 noscroll">
+              <p class="item-info">{{ item.gallery_entry_title }}</p>
               <p class="item-title">{{ htmlDecode(item.title) }}</p>
             </div>
           </div>
@@ -53,12 +53,10 @@
     <div class="recently-added h-fill scrollx">
       <div class="recently-added-flow">
         <div v-for="item in items.shop" :key="item.id" class="recently-added-item-wrapper" @click="activate(item)">
-          <div class="recently-added-item v-fill">
+          <div class="shop">
+            <p class="item-info">{{ item.gallery_entry_title }}</p>
             <div class="item-image" :style="{ 'background-image': `url(${item.image || item.gallery_entry_image})` }" />
-            <div class="flex-one p1 noscroll">
-              <p class="item-info"><i :class="typeLabel(item)" /> {{ item.gallery_entry_title }}</p>
-              <p class="item-title">{{ htmlDecode(item.title) }}</p>
-            </div>
+            <p class="item-title">{{ htmlDecode(item.title) }}</p>
           </div>
         </div>
       </div>
@@ -151,6 +149,56 @@ export default {
   .item-title {
     @extend .font-1;
     @extend .lines2;
+  }
+}
+.video {
+  @extend .bg-hi;
+  @extend .shadow-primary2;
+  width: 148px;
+  .item-image {
+    background-size: cover;
+    background-position: center;
+    width: 148px;
+    height: 111px;
+    min-width: 30px;
+  }
+  .item-info {
+    @extend .uppercase;
+    @extend .muted2;
+    @extend .font-5;
+    @extend .lines1;
+    @extend .noscroll;
+  }
+  .item-title {
+    @extend .font-1;
+    @extend .lines2;
+  }
+}
+.shop {
+  @extend .bg-hi;
+  @extend .shadow-primary2;
+  width: 110px;
+  border-radius: 2px;
+  .item-image {
+    background-size: cover;
+    background-position: center;
+    width: 110px;
+    height: 110px;
+    min-width: 30px;
+  }
+  .item-info {
+    @extend .uppercase;
+    @extend .muted2;
+    @extend .font-5;
+    @extend .lines1;
+    @extend .noscroll;
+    @extend .text-center;
+    padding: 4px;
+  }
+  .item-title {
+    @extend .font-1;
+    @extend .lines2;
+    padding: 4px;
   }
 }
 </style>
