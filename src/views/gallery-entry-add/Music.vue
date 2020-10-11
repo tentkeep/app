@@ -36,6 +36,7 @@
 
 <script>
 import api from '@/js/api'
+import { tryGet } from '@/js/common'
 
 export default {
   name: 'AddMusicArtist',
@@ -63,11 +64,11 @@ export default {
     },
     firstAlbumName (artist) {
       const album = this.firstAlbum(artist)
-      return album && album.attributes ? album.attributes.name : ''
+      return tryGet(() => album.attributes.name, '')
     },
     firstAlbumImage (artist) {
       const album = this.firstAlbum(artist)
-      return (album && album.attributes ? album.attributes.artwork.url : '').replace(/{w}|{h}/g, '100')
+      return tryGet(() => album.attributes.artwork.url, '').replace(/{w}|{h}/g, '100')
     },
     artistSelected (artist) {
       this.artistId = artist.id
