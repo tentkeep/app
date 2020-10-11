@@ -4,13 +4,11 @@
     <p class="primary uppercase bold font-1 m1-bottom">Watch</p>
     <div class="recently-added h-fill scrollx">
       <div class="recently-added-flow">
-        <div v-for="item in items.video" :key="item.id" class="recently-added-item-wrapper" @click="activate(item)">
-          <div class="video">
-            <div class="item-image h-fill" :style="{ 'background-image': `url(${item.image || item.gallery_entry_image})` }" />
-            <div class="p1 noscroll">
-              <p class="item-info">{{ item.gallery_entry_title }}</p>
-              <p class="item-title">{{ htmlDecode(item.title) }}</p>
-            </div>
+        <div v-for="item in items.video" :key="item.id" class="video" @click="activate(item)">
+          <div class="item-image h-fill" :style="{ 'background-image': `url(${item.image || item.gallery_entry_image})` }" />
+          <div class="p1 noscroll">
+            <p class="item-info">{{ item.gallery_entry_title }}</p>
+            <p class="item-title">{{ htmlDecode(item.title) }}</p>
           </div>
         </div>
       </div>
@@ -52,12 +50,10 @@
     <p class="primary uppercase bold font-1 m1-top m1-bottom">Shop</p>
     <div class="recently-added h-fill scrollx">
       <div class="recently-added-flow">
-        <div v-for="item in items.shop" :key="item.id" class="recently-added-item-wrapper" @click="activate(item)">
-          <div class="shop">
-            <p class="item-info">{{ item.gallery_entry_title }}</p>
-            <div class="item-image" :style="{ 'background-image': `url(${item.image || item.gallery_entry_image})` }" />
-            <p class="item-title">{{ htmlDecode(item.title) }}</p>
-          </div>
+        <div v-for="item in items.shop" :key="item.id" class="shop" @click="activate(item)">
+          <p class="item-info">{{ item.gallery_entry_title }}</p>
+          <div class="item-image" :style="{ 'background-image': `url(${item.image || item.gallery_entry_image})` }" />
+          <p class="item-title">{{ htmlDecode(item.title) }}</p>
         </div>
       </div>
     </div>
@@ -155,6 +151,8 @@ export default {
   @extend .bg-hi;
   @extend .shadow-primary2;
   width: 148px;
+  @extend .m1-bottom;
+  @extend .m1-right;
   .item-image {
     background-size: cover;
     background-position: center;
@@ -177,6 +175,8 @@ export default {
 .shop {
   @extend .bg-hi;
   @extend .shadow-primary2;
+  @extend .m1-bottom;
+  @extend .m1-right;
   width: 110px;
   border-radius: 2px;
   .item-image {
