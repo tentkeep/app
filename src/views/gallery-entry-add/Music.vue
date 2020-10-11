@@ -36,7 +36,7 @@
 
 <script>
 import api from '@/js/api'
-import { tryGet } from '@/js/common'
+import common from '@/js/common'
 
 export default {
   name: 'AddMusicArtist',
@@ -64,11 +64,19 @@ export default {
     },
     firstAlbumName (artist) {
       const album = this.firstAlbum(artist)
-      return tryGet(() => album.attributes.name, '')
+      return common.tryGet(() => album.attributes.name, '')
     },
     firstAlbumImage (artist) {
       const album = this.firstAlbum(artist)
-      return tryGet(() => album.attributes.artwork.url, '').replace(/{w}|{h}/g, '100')
+      let url, t
+      try {
+        t = common.tryGet
+        console.log(t)
+        url = common.tryGet(() => album.attributes.artwork.url, '')
+        return url.replace(/{w}|{h}/g, '100')
+      } catch (e) {
+        debugger
+      }
     },
     artistSelected (artist) {
       this.artistId = artist.id
@@ -99,8 +107,7 @@ $row-height: 46px;
   @extend .pointer;
   transition: border .1s;
   &.selected {
-    @extend .shadow-primary2;
-    @extend .border-primary2;
+    box-shadow: inset 0px 0px 8px var(--primary);
     border-width: 3px;
   }
   &:last-child {

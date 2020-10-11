@@ -1,6 +1,6 @@
 const tryGet = (accessor, fallback) => {
   try {
-    return accessor()
+    return accessor() || fallback
   } catch {
     return fallback
   }
